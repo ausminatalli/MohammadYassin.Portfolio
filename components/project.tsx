@@ -3,9 +3,10 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-// import Ecommerce from "../public/ecommerce.png";
-// import Transportation from "../public/ecommerce.png";
-// import Hr from "../public/ecommerce.png";
+
+import Ecommerce from "../public/ecommerce.png";
+import Transportation from "../public/ecommerce.png";
+import Hr from "../public/ecommerce.png";
 export const projectsData = [
   {
     title: "E-commerce",
@@ -21,7 +22,7 @@ export const projectsData = [
       "SaaS",
       "Cloudinary",
     ],
-    imageUrl: "/ecommerce.png",
+    imageUrl: Ecommerce,
   },
   {
     title: "Transportation Management System",
@@ -37,7 +38,7 @@ export const projectsData = [
       "Strip",
       "Cloudinary",
     ],
-    imageUrl: "/transportation.png",
+    imageUrl: Ecommerce,
   },
   {
     title: "HR Management System",
@@ -52,7 +53,7 @@ export const projectsData = [
       "Auth.js",
       "Sequlize",
     ],
-    imageUrl: "/hr.png",
+    imageUrl: Ecommerce,
   },
 ] as const;
 
