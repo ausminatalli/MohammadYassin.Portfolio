@@ -21,7 +21,7 @@ export const projectsData = [
       "SaaS",
       "Cloudinary",
     ],
-    imageUrl: Ecommerce,
+    imageUrl: "/ecommerce.png",
   },
   {
     title: "Transportation Management System",
@@ -37,7 +37,7 @@ export const projectsData = [
       "Strip",
       "Cloudinary",
     ],
-    imageUrl: Transportation,
+    imageUrl: "/transportation.png",
   },
   {
     title: "HR Management System",
@@ -52,7 +52,7 @@ export const projectsData = [
       "Auth.js",
       "Sequlize",
     ],
-    imageUrl: Hr,
+    imageUrl: "/hr.png",
   },
 ] as const;
 
