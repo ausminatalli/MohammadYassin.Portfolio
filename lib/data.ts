@@ -2,9 +2,9 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-import ecommerce from "@/public/ecommerce.png";
-import transportation from "@/public/transportation.png";
-import hr from "@/public/hr.png";
+import ecommerce from "../public/ecommerce.png";
+import transportation from "../public/transportation.png";
+import hr from "../public/hr.png";
 export const links = [
   {
     name: "Home",
