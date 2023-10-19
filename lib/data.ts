@@ -2,9 +2,9 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-import Ecommerce from "@/public/ecommerce.png";
-import Transportation from "@/public/transportation.png";
-import Hr from "@/public/hr.png";
+import ecommerceImg from "@/public/ecommerce.png";
+import transportationImg from "@/public/transportation.png";
+import hrImg from "@/public/hr.png";
 export const links = [
   {
     name: "Home",
@@ -74,7 +74,7 @@ export const projectsData = [
       "SaaS",
       "Cloudinary",
     ],
-    imageUrl: Ecommerce,
+    imageUrl: ecommerceImg,
   },
   {
     title: "Transportation Management System",
@@ -90,7 +90,7 @@ export const projectsData = [
       "Strip",
       "Cloudinary",
     ],
-    imageUrl: Transportation,
+    imageUrl: transportationImg,
   },
   {
     title: "HR Management System",
@@ -105,7 +105,7 @@ export const projectsData = [
       "Auth.js",
       "Sequlize",
     ],
-    imageUrl: Hr,
+    imageUrl: hrImg,
   },
 ];
 
