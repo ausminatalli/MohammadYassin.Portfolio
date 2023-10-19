@@ -3,9 +3,9 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Ecommerce from "../public/ecommerce.png";
-import Transportation from "../public/ecommerce.png";
-import Hr from "../public/ecommerce.png";
+// import Ecommerce from "../public/ecommerce.png";
+// import Transportation from "../public/ecommerce.png";
+// import Hr from "../public/ecommerce.png";
 export const projectsData = [
   {
     title: "E-commerce",
