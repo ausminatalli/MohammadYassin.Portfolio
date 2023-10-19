@@ -37,7 +37,7 @@ export const experiencesData = [
     title: "Graduated University",
     location: "Beirut, Lebanon",
     description:
-      "I graduated after 4 years of studying. I worked as a freelance for quite sometime.",
+      "I graduated after 4 years of studying. I worked as a freelance for quite sometime..",
     icon: React.createElement(LuGraduationCap),
     date: "2021",
   },
