@@ -5,8 +5,6 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { projectsData } from "@/lib/data";
 
-
-
 type ProjectProps = (typeof projectsData)[number];
 
 export default function Project({
@@ -50,12 +48,12 @@ export default function Project({
           </ul>
         </div>
 
-        <Image
+        <img
           src={imageUrl}
           width={320}
           height={320}
           alt="Project I worked on"
-          quality={95}
+          // quality={95}
           className="absolute hidden sm:block top-8 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl
         transition
         group-hover:scale-[1.04]
