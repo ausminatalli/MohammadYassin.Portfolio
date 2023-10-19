@@ -1,3 +1,3 @@
-import { links } from "../components/data";
+import { links } from "./data";
 
 export type SectionName = (typeof links)[number]["name"];
