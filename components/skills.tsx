@@ -5,6 +5,7 @@ import SectionHeading from "./section-heading";
 import { skillsData } from "@/lib/data";
 import { useSectionInView } from "@/lib/hooks";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const fadeInAnimationVariants = {
   initial: {
@@ -38,12 +39,24 @@ export default function Skills() {
             variants={fadeInAnimationVariants}
             initial="initial"
             whileInView="animate"
+            whileHover={{
+              scale: 1.1,
+              boxShadow: "0px 0px 20px rgb(0,0,0,0.2)",
+              transition: { duration: 0.3, ease: "easeInOut" },
+            }}
             viewport={{
               once: true,
             }}
             custom={index}
           >
-            {skill}
+            <Image
+              src={skill.imageUrl}
+              width={64}
+              height={64}
+              alt={`${skill.name} logo`}
+              className="mb-2  cursor-pointer"
+              // style={{ width: "50px", height: "50px" }}
+            />
           </motion.li>
         ))}
       </ul>

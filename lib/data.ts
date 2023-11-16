@@ -2,9 +2,33 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-// import ecommerceImg from "../public/ecommerce.png";
-// import transportationImg from "../public/transportation.png";
-// import hrImg from "../public/hr.png";
+import ecommerceImg from "../public/ecommerce.png";
+import css from "../public/css-3.svg";
+import html from "../public/html.svg";
+import aws from "../public/aws.svg";
+import bootstrap from "../public/bootstrap.svg";
+import cloudinary from "../public/cloudinary.svg";
+import github from "../public/github.svg";
+import javascript from "../public/javascript.svg";
+import mongodb from "../public/mongodb.svg";
+import mysql from "../public/mysql.svg";
+import nextjs from "../public/nextjs.svg";
+import nodejs from "../public/nodejs.svg";
+import php from "../public/php.svg";
+import postman from "../public/postman.svg";
+import prisma from "../public/prisma.svg";
+import laravel from "../public/laravel.svg";
+import python from "../public/python.svg";
+import react from "../public/react.svg";
+import strip from "../public/strip.svg";
+import tailwind from "../public/tailwind.svg";
+import dynamodb from "../public/dynamodb.svg";
+import typescript from "../public/typescript.svg";
+import wordpress from "../public/wordpress.svg";
+import postgresql from "../public/postgresql.svg";
+import sass from "../public/sass-1.svg";
+import transportationImg from "../public/transportation.png";
+import hrImg from "../public/hr.png";
 export const links = [
   {
     name: "Home",
@@ -74,7 +98,9 @@ export const projectsData = [
       "SaaS",
       "Cloudinary",
     ],
-    imageUrl: "https://i.ibb.co/LhF2wMm/ecommerce.png",
+    imageUrl: ecommerceImg,
+    githubrepo: "https://github.com/ausminatalli/FootVibe",
+    demo: "https://foot-vibe.vercel.app/",
   },
   {
     title: "Transportation Management System",
@@ -90,7 +116,9 @@ export const projectsData = [
       "Strip",
       "Cloudinary",
     ],
-    imageUrl: "https://i.ibb.co/jJdLWfF/transportation.png",
+    imageUrl: transportationImg,
+    githubrepo: "https://github.com/ausminatalli/Trasnportation",
+    demo: "",
   },
   {
     title: "HR Management System",
@@ -105,27 +133,62 @@ export const projectsData = [
       "Auth.js",
       "Sequlize",
     ],
-    imageUrl: "https://i.ibb.co/z43NWKz/hr.png",
+    imageUrl: hrImg,
+    githubrepo: "https://github.com/ausminatalli/esa_hr_system",
+    demo: "",
   },
 ];
 
+// export const skillsData = [
+//   "HTML",
+//   "CSS",
+//   "JavaScript",
+//   "PHP",
+//   "TypeScript",
+//   "React",
+//   "Next.js",
+//   "Node.js",
+//   "Git",
+//   "Tailwind",
+//   "MySQL",
+//   "MongoDB",
+//   "Postman",
+//   "Cloudinary",
+//   "PDFLib",
+//   "Stripe",
+//   "Python",
+//   "Sequlize(ORM)",
+// ] as const;
+
 export const skillsData = [
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "PHP",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Git",
-  "Tailwind",
-  "MySQL",
-  "MongoDB",
-  "Postman",
-  "Cloudinary",
-  "PDFLib",
-  "Stripe",
-  "Python",
-  "Sequlize(ORM)",
+  { name: "HTML", imageUrl: html },
+  { name: "CSS", imageUrl: css },
+  {
+    name: "JavaScript",
+    imageUrl: javascript,
+  },
+  { name: "PHP", imageUrl: php },
+  {
+    name: "TypeScript",
+    imageUrl: typescript,
+  },
+  { name: "Reactjs", imageUrl: react },
+  { name: "Nextjs", imageUrl: nextjs },
+  { name: "Nodejs", imageUrl: nodejs },
+  { name: "Aws lambda", imageUrl: aws },
+  { name: "Strip", imageUrl: strip },
+  { name: "Github", imageUrl: github },
+  { name: "Prisma", imageUrl: prisma },
+  { name: "Python", imageUrl: python },
+  { name: "Laravel", imageUrl: laravel },
+  { name: "WordPress", imageUrl: wordpress },
+  { name: "MySql", imageUrl: mysql },
+  { name: "MongoDB", imageUrl: mongodb },
+  { name: "DynamoDB", imageUrl: dynamodb },
+  { name: "Postgres", imageUrl: postgresql },
+  { name: "Cloudinary", imageUrl: cloudinary },
+  { name: "Sass", imageUrl: sass },
+  { name: "Tailwind", imageUrl: tailwind },
+  { name: "Bootstrap", imageUrl: bootstrap },
+  { name: "Postman", imageUrl: postman },
 ] as const;

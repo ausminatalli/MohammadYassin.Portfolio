@@ -12,6 +12,8 @@ export default function Project({
   description,
   tags,
   imageUrl,
+  githubrepo,
+  demo,
 }: ProjectProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -30,13 +32,37 @@ export default function Project({
       }}
       className="group mb-3 sm:mb-8 last:mb-0"
     >
-      <section className="bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative h-[24rem] md:h-[32rem] hover:bg-gray-200 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20">
-        <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
+      <section className="project-box bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative h-[24rem] md:h-[32rem] hover:bg-gray-200 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20">
+        <div className="flex gap-4 px-8 py-4">
+          <a target="blank" className="block" href={githubrepo}>
+            <Image
+              width={28}
+              height={28}
+              src="/githublogo.svg"
+              alt="GitHub Icon"
+              className={`text-xl ${
+                githubrepo ? "block" : "hidden"
+              } hover:scale-110 duration-300 hover:text-blue-300`}
+            />
+          </a>
+          <a target="blank" className="block" href={demo}>
+            <Image
+              width={28}
+              height={28}
+              src="/globe.svg"
+              alt="Globe Icon"
+              className={`text-xl ${
+                demo ? "block" : "hidden"
+              } hover:scale-110 duration-300 hover:text-blue-300`}
+            />
+          </a>
+        </div>
+        <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-0 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
           <h3 className="text-2xl font-semibold">{title}</h3>
           <p className="mt-2 leading-relaxed text-gray-700 dark:text-white/70">
             {description}
           </p>
-          <ul className="flex flex-wrap mt-4 gap-2 mt-auto">
+          <ul className="flex flex-wrap mt-4 gap-2 ">
             {tags.map((tag, index) => (
               <li
                 className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
@@ -48,13 +74,13 @@ export default function Project({
           </ul>
         </div>
 
-        <img
+        <Image
           src={imageUrl}
           width={320}
           height={320}
           alt="Project I worked on"
           // quality={95}
-          className="absolute hidden sm:block top-8 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl
+          className="absolute hidden sm:block top-14 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl
         transition
         group-hover:scale-[1.04]
         group-hover:-translate-x-3
