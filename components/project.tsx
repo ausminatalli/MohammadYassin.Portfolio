@@ -74,7 +74,7 @@ export default function Project({
           </ul>
         </div>
 
-        <Image
+        <img
           src={imageUrl}
           width={320}
           height={320}
