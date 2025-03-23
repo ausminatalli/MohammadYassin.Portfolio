@@ -20,13 +20,12 @@ export default function About() {
       <SectionHeading>About me</SectionHeading>
       <p className="mb-3">
         In 2021, I graduated with a{" "}
-        <span className="font-medium">Computer Science degree</span>. Currently,
-        I've successfully completed the{" "}
+        <span className="font-medium">Computer Science degree</span>. I've
+        successfully completed the{" "}
         <span className="font-medium">ESA Coding Lab</span>, sponsored by ESA
         and the French Embassy in Lebanon, earning a{" "}
-        <span className="font-medium">degree from Esiee Paris</span> expected in
-        September 2023. I dedicated{" "}
-        <span className="font-medium">7 months</span> to an{" "}
+        <span className="font-medium">degree from Esiee Paris</span>. I
+        dedicated <span className="font-medium">7 months</span> to an{" "}
         <span className="font-medium">
           IT internship at ESA École Supérieure des Affaires
         </span>
@@ -38,7 +37,9 @@ export default function About() {
           5-month full-stack development program
         </span>
         , completing{" "}
-        <span className="font-medium">three distinct projects</span>.
+        <span className="font-medium">three distinct projects</span>. I am
+        currently working at <span className="font-medium">Pixel 38</span> as a
+        fullstack developer.
       </p>
 
       <p>
