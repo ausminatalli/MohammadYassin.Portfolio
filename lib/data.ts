@@ -1,7 +1,8 @@
 import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
-import { FaReact } from "react-icons/fa";
+import { FaReact, FaLaptopCode } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
+import { MdDataUsage, MdComputer } from "react-icons/md";
 import ecommerceImg from "../public/ecommerce.png";
 import css from "../public/css-3.svg";
 import html from "../public/html.svg";
@@ -27,8 +28,15 @@ import typescript from "../public/typescript.svg";
 import wordpress from "../public/wordpress.svg";
 import postgresql from "../public/postgresql.svg";
 import sass from "../public/sass-1.svg";
+import java from "../public/java.svg";
+import dotnet from "../public/dotnet.svg";
+import springboot from "../public/spring-boot.svg";
+import swagger from "../public/swagger.svg";
+import graphql from "../public/graphql.svg";
+
 import transportationImg from "../public/transportation.png";
 import hrImg from "../public/hr.png";
+
 export const links = [
   {
     name: "Home",
@@ -58,75 +66,80 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "Graduated University",
-    location: "Beirut, Lebanon",
+    title: "Bachelor in Computer Science",
+    location: "Lebanese International University, Beirut",
     description:
-      "I graduated after 4 years of studying. I worked as a freelance for quite sometime..",
+      "Graduated with a strong foundation in Computer Science and Mathematics. Developed technical problem-solving skills and passion for innovation.",
     icon: React.createElement(LuGraduationCap),
-    date: "2021",
+    date: "2017 - 2021",
   },
   {
-    title: "Front-End Developer",
-    location: "Beirut, Lebanon",
+    title: "Freelance Maintenance Technician",
+    location: "Lebanon",
     description:
-      "I worked as a front-end developer and IT technician for 7 month for ESA(French college). I also upskilled to the full stack.",
+      "Provided software and hardware maintenance for PCs, satellite dish installation, internet configuration, bug troubleshooting, and IPTV setup for individual and business clients.",
+    icon: React.createElement(MdComputer),
+    date: "Aug 2020 - Present",
+  },
+  {
+    title: "Data Entry & Verification Assistant",
+    location: "Sawa Li Lubnan - Lebanese Elections",
+    description:
+      "Verified and entered voter data during the Lebanese national elections. Ensured accuracy and compliance with electoral protocols and contributed to smooth data operations.",
+    icon: React.createElement(MdDataUsage),
+    date: "Jan 2022 - May 2023",
+  },
+  {
+    title: "Full-Stack Developer Certification",
+    location: "ESIEE-IT & ESA Coding Lab",
+    description:
+      "Completed intensive full-stack development programs, earning certifications from both ESIEE-IT and ESA Coding Lab. Mastered modern web development technologies and frameworks.",
+    icon: React.createElement(FaLaptopCode),
+    date: "Apr 2023 - Sep 2023",
+  },
+  {
+    title: "IT & Full-stack Developer",
+    location: "ESA (Ecole Superieure des Affaires) - French Business School",
+    description:
+      "Maintained digital infrastructure and developed internal tools and platforms. Supported both hardware and software needs while implementing new features across web applications.",
     icon: React.createElement(CgWorkAlt),
-    date: "2022 - 2023",
+    date: "Aug 2023 - Apr 2024",
   },
   {
-    title: "Full-Stack Developer Bootcamp",
-    location: "Nabatye, Lebanon",
+    title: "Full-stack Developer",
+    location: "Pixel38 - Remote / Lebanon",
     description:
-      "I studied and worked on multiple project during a 5 month period and gained two certifcates.",
+      "Working on multiple client and internal projects. Contributing to both front-end and back-end development, collaborating with cross-functional teams to deliver scalable and efficient web applications.",
     icon: React.createElement(FaReact),
-    date: "2023 - 2023",
-  },
-  {
-    title: "Full-Stack Developer",
-    location: "Beirut, Lebanon",
-    description:
-      "Worked on two different projects,one related to gaming and another related to shipping.",
-    icon: React.createElement(FaReact),
-    date: "2024 - Present",
+    date: "Jan 2024 - Present",
   },
 ] as const;
 
 export const projectsData = [
   {
-    title: "E-commerce",
+    title: "Marblearth",
     description:
-      "The website is an e-commerce platform dedicated to shoes. It was built using React JS and incorporates several essential components, including a product management system, administrative integration, Stripe payment processing, viewer tracking, and a comprehensive logging system.",
+      "Developed a full-featured web platform using React and Node.js. Integrated extensive AWS services, including CloudFront CDN, for optimized performance and scalability.",
     tags: [
-      "Reactjs",
-      "Nodejs",
-      "Expressjs",
-      "Tailwind",
-      "Redux",
-      "Strip",
-      "SaaS",
-      "Cloudinary",
+      "React.js",
+      "Node.js",
+      "AWS",
+      "CloudFront",
+      "CDN",
+      "Performance Optimization",
     ],
     imageUrl: "https://i.ibb.co/LhF2wMm/ecommerce.png",
-    githubrepo: "https://github.com/ausminatalli/FootVibe",
-    demo: "https://foot-vibe.vercel.app/",
+    githubrepo: "",
+    demo: "https://marblearth.com/",
   },
   {
-    title: "Transportation Management System",
+    title: "Souqanwar E-commerce Website",
     description:
-      "I developed an efficient bus transportation system with secure payment capabilities. Admins have the power to manage stations, buses, and travel schedules, while users can securely book tickets. Additionally, drivers can register to work as bus drivers.",
-    tags: [
-      "HTML",
-      "CSS",
-      "Vanillajs",
-      "Bootstrap",
-      "mysql",
-      "PHP",
-      "Strip",
-      "Cloudinary",
-    ],
-    imageUrl: "https://i.ibb.co/jJdLWfF/transportation.png",
-    githubrepo: "https://github.com/ausminatalli/Trasnportation",
-    demo: "",
+      "Built an e-commerce website for a client with a Next.js frontend and Laravel backend. Project currently in early stages; frontend deployed, backend under development.",
+    tags: ["Next.js", "Laravel", "PHP", "E-commerce", "Frontend", "Backend"],
+    imageUrl: "https://i.ibb.co/T68SQPd/souqanwar.png",
+    githubrepo: "",
+    demo: "https://souqanwar.com/",
   },
   {
     title: "HR Management System",
@@ -134,69 +147,120 @@ export const projectsData = [
       "Created a web-based HR Management System to facilitate efficient employee-HR interactions, enabling employees to submit requests, HR to respond promptly, and facilitating secure document uploads.",
     tags: [
       "Next.js",
-      "Typescrypt",
+      "TypeScript",
+      "MySQL",
       "Tailwind",
       "Cloudinary",
       "PDFLib",
       "Auth.js",
-      "Sequlize",
     ],
     imageUrl: "https://i.ibb.co/z43NWKz/hr.png",
-    githubrepo: "https://github.com/ausminatalli/esa_hr_system",
+    githubrepo: "",
     demo: "",
   },
+  {
+    title: "Transportation Management System",
+    description:
+      "Developed an efficient bus transportation system with secure payment integration. Admins manage stations, buses, and travel schedules. Users can securely book tickets online. Drivers can register to work as drivers.",
+    tags: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Bootstrap",
+      "MySQL",
+      "PHP",
+      "Stripe",
+      "Git",
+    ],
+    imageUrl: "https://i.ibb.co/jJdLWfF/transportation.png",
+    githubrepo: "https://github.com/ausminatalli/Trasnportation",
+    demo: "",
+  },
+  {
+    title: "Full E-commerce Website (FootVibe)",
+    description:
+      "Designed a comprehensive e-commerce platform using the MERN stack. Empowered users with product exploration, cart management, wishlists, and order tracking. Implemented admin dashboard for seamless control over products, user orders, and site content.",
+    tags: [
+      "React",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Tailwind",
+      "Redux",
+      "Stripe",
+      "SaaS",
+    ],
+    imageUrl: "https://i.ibb.co/LhF2wMm/ecommerce.png",
+    githubrepo: "https://github.com/ausminatalli/FootVibe",
+    demo: "https://foot-vibe.vercel.app/",
+  },
+  {
+    title: "Student Registration Forms",
+    description:
+      "Served as backend developer for ESA, designing a web-based student registration form. Supported 12 different majors, each requiring specialized data entry formats. Established and managed the corresponding database.",
+    tags: ["Next.js", "MySQL2", "Cloudinary", "Tailwind", "Database Design"],
+    imageUrl: "https://i.ibb.co/z43NWKz/hr.png",
+    githubrepo: "",
+    demo: "http://80.77.180.245:3000/",
+  },
+  {
+    title: "Webstark Company Website",
+    description:
+      "Created a small business website for a friend using modern web technologies. Features responsive design and contact functionality.",
+    tags: ["Next.js", "Tailwind", "EmailJS", "Responsive Design"],
+    imageUrl: "https://i.ibb.co/dsTkfg3m/marblearth.png",
+    githubrepo: "",
+    demo: "https://www.webstark.xyz/",
+  },
+  {
+    title: "Help More Website",
+    description:
+      "Developed a charity website using Laravel framework. Features donation tracking, volunteer management, and content management system.",
+    tags: ["Laravel", "PHP", "MySQL", "Charity Platform"],
+    imageUrl: "https://i.ibb.co/LdcvHJHN/helpmore.png",
+    githubrepo: "",
+    demo: "https://www.helpmore.co.uk/",
+  },
 ];
-
-// export const skillsData = [
-//   "HTML",
-//   "CSS",
-//   "JavaScript",
-//   "PHP",
-//   "TypeScript",
-//   "React",
-//   "Next.js",
-//   "Node.js",
-//   "Git",
-//   "Tailwind",
-//   "MySQL",
-//   "MongoDB",
-//   "Postman",
-//   "Cloudinary",
-//   "PDFLib",
-//   "Stripe",
-//   "Python",
-//   "Sequlize(ORM)",
-// ] as const;
 
 export const skillsData = [
   { name: "HTML", imageUrl: html },
   { name: "CSS", imageUrl: css },
-  {
-    name: "JavaScript",
-    imageUrl: javascript,
-  },
+  { name: "JavaScript", imageUrl: javascript },
+  { name: "TypeScript", imageUrl: typescript },
   { name: "PHP", imageUrl: php },
-  {
-    name: "TypeScript",
-    imageUrl: typescript,
-  },
-  { name: "Reactjs", imageUrl: react },
-  { name: "Nextjs", imageUrl: nextjs },
-  { name: "Nodejs", imageUrl: nodejs },
-  { name: "Aws lambda", imageUrl: aws },
-  { name: "Strip", imageUrl: strip },
-  { name: "Github", imageUrl: github },
-  { name: "Prisma", imageUrl: prisma },
   { name: "Python", imageUrl: python },
+  { name: "Java", imageUrl: java }, // Using JS icon as placeholder
+  { name: "C#", imageUrl: dotnet }, // Using JS icon as placeholder
+  { name: "React.js", imageUrl: react },
+  { name: "Next.js", imageUrl: nextjs },
+  { name: "Node.js", imageUrl: nodejs },
+  { name: "Express.js", imageUrl: nodejs },
   { name: "Laravel", imageUrl: laravel },
+  { name: "Spring Boot", imageUrl: springboot },
+  { name: "Django", imageUrl: python },
+  { name: "Flask", imageUrl: python },
+  { name: ".NET Core", imageUrl: dotnet },
+  { name: "Redux", imageUrl: react },
+  { name: "Sequelize", imageUrl: nodejs },
+  { name: "Prisma", imageUrl: prisma },
   { name: "WordPress", imageUrl: wordpress },
-  { name: "MySql", imageUrl: mysql },
+  { name: "MySQL", imageUrl: mysql },
   { name: "MongoDB", imageUrl: mongodb },
+  { name: "PostgreSQL", imageUrl: postgresql },
   { name: "DynamoDB", imageUrl: dynamodb },
-  { name: "Postgres", imageUrl: postgresql },
+  { name: "Git", imageUrl: github },
+  { name: "GitHub", imageUrl: github },
+  { name: "GitLab", imageUrl: github },
+  { name: "AWS", imageUrl: aws },
   { name: "Cloudinary", imageUrl: cloudinary },
-  { name: "Sass", imageUrl: sass },
-  { name: "Tailwind", imageUrl: tailwind },
+  { name: "Tailwind CSS", imageUrl: tailwind },
   { name: "Bootstrap", imageUrl: bootstrap },
+  { name: "Sass", imageUrl: sass },
   { name: "Postman", imageUrl: postman },
+  { name: "Swagger/OpenAPI", imageUrl: swagger },
+  { name: "GraphQL", imageUrl: graphql },
+  { name: "Stripe", imageUrl: strip },
+  { name: "Jest", imageUrl: nodejs },
+  { name: "Vercel", imageUrl: github },
 ] as const;
