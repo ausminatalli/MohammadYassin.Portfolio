@@ -66,14 +66,6 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "Bachelor in Computer Science",
-    location: "Lebanese International University, Beirut",
-    description:
-      "Graduated with a strong foundation in Computer Science and Mathematics. Developed technical problem-solving skills and passion for innovation.",
-    icon: React.createElement(LuGraduationCap),
-    date: "2017 - 2021",
-  },
-  {
     title: "Freelance Maintenance Technician",
     location: "Lebanon",
     description:
@@ -81,6 +73,15 @@ export const experiencesData = [
     icon: React.createElement(MdComputer),
     date: "Aug 2020 - Present",
   },
+  {
+    title: "Bachelor in Computer Science",
+    location: "Lebanese International University, Beirut",
+    description:
+      "Graduated with a strong foundation in Computer Science and Mathematics. Developed technical problem-solving skills and passion for innovation.",
+    icon: React.createElement(LuGraduationCap),
+    date: "2017 - 2021",
+  },
+  
   {
     title: "Data Entry & Verification Assistant",
     location: "Sawa Li Lubnan - Lebanese Elections",
@@ -105,14 +106,7 @@ export const experiencesData = [
     icon: React.createElement(CgWorkAlt),
     date: "Aug 2023 - Apr 2024",
   },
-  {
-    title: "Software Engineer (Freelance)",
-    location: "Pixel38 Worldwide",
-    description:
-      "Freelancing in and for different projects.",
-    icon: React.createElement(FaReact),
-    date: "Dec 2025 - Present",
-  },
+  
   {
     title: "Full-stack Developer",
     location: "Pixel38 - Remote / Lebanon",
@@ -120,6 +114,14 @@ export const experiencesData = [
       "Working on multiple client and internal projects. Contributing to both front-end and back-end development, collaborating with cross-functional teams to deliver scalable and efficient web applications.",
     icon: React.createElement(FaReact),
     date: "Jan 2024 - Dec 2025",
+  },
+  {
+    title: "Software Engineer (Freelance)",
+    location: "Pixel38 Worldwide",
+    description:
+      "Freelancing in and for different projects.",
+    icon: React.createElement(FaReact),
+    date: "Dec 2025 - Present",
   },
 ] as const;
 
@@ -129,7 +131,7 @@ export const projectsData = [
     description:
       "A Laravel and React Native platform connecting job seekers with opportunities. Launching March 1st on iOS and Android.",
     tags: ["Laravel", "React Native", "Job Platform", "Mobile App"],
-    imageUrl: "https://i.ibb.co/LhF2wMm/ecommerce.png", // Using placeholder as no new image provided
+    imageUrl: "https://i.ibb.co/P0VdH9n/Screenshot-2026-01-30-at-11-47-37.png", // Using placeholder as no new image provided
     githubrepo: "",
     demo: "https://sha8elni.com/en/",
   },
