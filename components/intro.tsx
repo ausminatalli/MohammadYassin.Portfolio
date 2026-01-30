@@ -64,7 +64,7 @@ export default function Intro() {
       >
         <span className="font-bold">Hello, I'm Mohammad Yassine.</span> I'm a{" "}
         <span className="font-bold">full-stack developer</span> with{" "}
-        <span className="font-bold">over 3 years</span> of experience. I enjoy
+        <span className="font-bold">over 5 years</span> of experience. I enjoy
         building <span className="italic">scalable web applications</span>. My
         focus is <span className="underline">modern web technologies</span> like
         React, Laravel, and cloud solutions.

@@ -106,16 +106,42 @@ export const experiencesData = [
     date: "Aug 2023 - Apr 2024",
   },
   {
+    title: "Software Engineer (Freelance)",
+    location: "Pixel38 Worldwide",
+    description:
+      "Freelancing in and for different projects.",
+    icon: React.createElement(FaReact),
+    date: "Dec 2025 - Present",
+  },
+  {
     title: "Full-stack Developer",
     location: "Pixel38 - Remote / Lebanon",
     description:
       "Working on multiple client and internal projects. Contributing to both front-end and back-end development, collaborating with cross-functional teams to deliver scalable and efficient web applications.",
     icon: React.createElement(FaReact),
-    date: "Jan 2024 - Present",
+    date: "Jan 2024 - Dec 2025",
   },
 ] as const;
 
 export const projectsData = [
+  {
+    title: "Sha8elni",
+    description:
+      "A Laravel and React Native platform connecting job seekers with opportunities. Launching March 1st on iOS and Android.",
+    tags: ["Laravel", "React Native", "Job Platform", "Mobile App"],
+    imageUrl: "https://i.ibb.co/LhF2wMm/ecommerce.png", // Using placeholder as no new image provided
+    githubrepo: "",
+    demo: "https://sha8elni.com/en/",
+  },
+  {
+    title: "Mourad Valled",
+    description:
+      "Informative website built with Laravel. Showcases services and information for the client.",
+    tags: ["Laravel", "PHP", "Informative Website"],
+    imageUrl: "https://i.ibb.co/gLL2tXVq/Screenshot-2026-01-30-at-11-12-34.png", // Using placeholder as no new image provided
+    githubrepo: "",
+    demo: "https://mouradvalley.com/",
+  },
   {
     title: "Marblearth",
     description:
@@ -128,18 +154,9 @@ export const projectsData = [
       "CDN",
       "Performance Optimization",
     ],
-    imageUrl: "https://i.ibb.co/LhF2wMm/ecommerce.png",
+    imageUrl: "https://i.ibb.co/Qjdx1qS9/Screenshot-2026-01-30-at-11-14-08.png",
     githubrepo: "",
     demo: "https://marblearth.com/",
-  },
-  {
-    title: "Souqanwar E-commerce Website",
-    description:
-      "Built an e-commerce website for a client with a Next.js frontend and Laravel backend. Project currently in early stages; frontend deployed, backend under development.",
-    tags: ["Next.js", "Laravel", "PHP", "E-commerce", "Frontend", "Backend"],
-    imageUrl: "https://i.ibb.co/T68SQPd/souqanwar.png",
-    githubrepo: "",
-    demo: "https://souqanwar.com/",
   },
   {
     title: "HR Management System",
@@ -176,24 +193,7 @@ export const projectsData = [
     githubrepo: "https://github.com/ausminatalli/Trasnportation",
     demo: "",
   },
-  {
-    title: "Full E-commerce Website (FootVibe)",
-    description:
-      "Designed a comprehensive e-commerce platform using the MERN stack. Empowered users with product exploration, cart management, wishlists, and order tracking. Implemented admin dashboard for seamless control over products, user orders, and site content.",
-    tags: [
-      "React",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-      "Tailwind",
-      "Redux",
-      "Stripe",
-      "SaaS",
-    ],
-    imageUrl: "https://i.ibb.co/LhF2wMm/ecommerce.png",
-    githubrepo: "https://github.com/ausminatalli/FootVibe",
-    demo: "https://foot-vibe.vercel.app/",
-  },
+
   {
     title: "Student Registration Forms",
     description:
@@ -201,16 +201,16 @@ export const projectsData = [
     tags: ["Next.js", "MySQL2", "Cloudinary", "Tailwind", "Database Design"],
     imageUrl: "https://i.ibb.co/z43NWKz/hr.png",
     githubrepo: "",
-    demo: "http://80.77.180.245:3000/",
+    demo: "https://onlineapplication.esa.edu.lb/",
   },
   {
-    title: "Webstark Company Website",
+    title: "BroadStark Company Website",
     description:
       "Created a small business website for a friend using modern web technologies. Features responsive design and contact functionality.",
     tags: ["Next.js", "Tailwind", "EmailJS", "Responsive Design"],
-    imageUrl: "https://i.ibb.co/dsTkfg3m/marblearth.png",
+    imageUrl: "https://i.ibb.co/d427tf32/Screenshot-2026-01-30-at-11-09-03.png",
     githubrepo: "",
-    demo: "https://www.webstark.xyz/",
+    demo: "https://broadstark.com/",
   },
   {
     title: "Help More Website",
