@@ -145,20 +145,20 @@ export const projectsData = [
     demo: "https://mouradvalley.com/",
   },
   {
-    title: "Marblearth",
+    title: "Mido TV",
     description:
-      "Developed a full-featured web platform using React and Node.js. Integrated extensive AWS services, including CloudFront CDN, for optimized performance and scalability.",
+      "Built a premium IPTV streaming platform with 8,000+ live channels, 20,000+ movies, and 10,000+ series. Features 4K Ultra HD streaming, multi-device support, bilingual interface (EN/AR), WhatsApp integration, and a sleek Netflix-inspired dark UI.",
     tags: [
-      "React.js",
-      "Node.js",
-      "AWS",
-      "CloudFront",
-      "CDN",
-      "Performance Optimization",
+      "Next.js",
+      "Tailwind CSS",
+      "Framer Motion",
+      "i18n",
+      "WhatsApp API",
+      "Vercel",
     ],
-    imageUrl: "https://i.ibb.co/Qjdx1qS9/Screenshot-2026-01-30-at-11-14-08.png",
+    imageUrl: "/midotv.png",
     githubrepo: "",
-    demo: "https://marblearth.com/",
+    demo: "https://midotv.com/",
   },
   {
     title: "HR Management System",
@@ -215,13 +215,13 @@ export const projectsData = [
     demo: "https://broadstark.com/",
   },
   {
-    title: "Help More Website",
+    title: "Mido Delivery",
     description:
-      "Developed a charity website using Laravel framework. Features donation tracking, volunteer management, and content management system.",
-    tags: ["Laravel", "PHP", "MySQL", "Charity Platform"],
-    imageUrl: "https://i.ibb.co/LdcvHJHN/helpmore.png",
+      "Developed a fast on-demand delivery service platform for Beirut. Features WhatsApp-based ordering, real-time delivery tracking, transparent pricing starting at $3, bilingual support (EN/AR), and a modern dark-themed UI with animated motorcycle graphics.",
+    tags: ["Next.js", "Tailwind CSS", "Framer Motion", "i18n", "WhatsApp API", "Vercel"],
+    imageUrl: "/midodelivery.png",
     githubrepo: "",
-    demo: "https://www.helpmore.co.uk/",
+    demo: "https://midodelivery.com/",
   },
 ];
 
