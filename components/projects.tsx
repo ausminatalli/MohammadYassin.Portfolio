@@ -6,6 +6,7 @@ import { useSectionInView } from "@/lib/hooks";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectCard from "./project";
+import MobileProjectBook from "./mobile-project-book";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,20 +71,20 @@ export default function Projects() {
         </h2>
       </div>
 
-      {/* Horizontal scroll track (desktop) / Vertical stack (mobile) */}
-      <div
-        ref={trackRef}
-        className={`${
-          isMobile
-            ? "flex flex-col gap-8 px-6 pb-20"
-            : "flex items-center gap-12 pl-[420px] py-12 pr-24"
-        }`}
-        style={isMobile ? {} : { width: "max-content", minHeight: "100vh" }}
-      >
-        {projectsData.map((project, index) => (
-          <ProjectCard key={index} index={index} {...project} />
-        ))}
-      </div>
+      {/* Desktop: Horizontal scroll track / Mobile: Book flip */}
+      {isMobile ? (
+        <MobileProjectBook />
+      ) : (
+        <div
+          ref={trackRef}
+          className="flex items-center gap-12 pl-[420px] py-12 pr-24"
+          style={{ width: "max-content", minHeight: "100vh" }}
+        >
+          {projectsData.map((project, index) => (
+            <ProjectCard key={index} index={index} {...project} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
