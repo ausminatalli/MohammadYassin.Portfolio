@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useSectionInView } from "@/lib/hooks";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import profileImage from "@/public/Mohammadyassine.jpeg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -140,7 +139,7 @@ export default function About() {
               }}
             >
               <Image
-                src={profileImage}
+                src="/MOHAMMADYASSINE.jpeg"
                 alt="Mohammad Yassine"
                 width={500}
                 height={600}
