@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSectionInView } from "@/lib/hooks";
 import { sendEmail } from "@/actions/sendEmail";
 import SubmitBtn from "./submit-btn";
@@ -15,6 +15,22 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Contact() {
   const { ref } = useSectionInView("Contact", 0.3);
   const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  useEffect(() => {
+    if (submitStatus === "idle" || submitStatus === "sending") return;
+
+    const timer = window.setTimeout(() => {
+      setSubmitStatus("idle");
+      setSubmitMessage("");
+    }, 4500);
+
+    return () => window.clearTimeout(timer);
+  }, [submitStatus]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -213,13 +229,34 @@ export default function Contact() {
               Send a message
             </h3>
             <form
+              ref={formRef}
               className="flex flex-col gap-4"
               action={async (formData) => {
+                setSubmitStatus("sending");
+                setSubmitMessage("Sending your message...");
+
                 const { data, error } = await sendEmail(formData);
                 if (error) {
+                  setSubmitStatus("error");
+                  setSubmitMessage(error);
                   toast.error(error);
                   return;
                 }
+
+                const resendError = (
+                  data as { error?: { message?: string } } | null | undefined
+                )?.error?.message;
+
+                if (resendError) {
+                  setSubmitStatus("error");
+                  setSubmitMessage(resendError);
+                  toast.error(resendError);
+                  return;
+                }
+
+                formRef.current?.reset();
+                setSubmitStatus("success");
+                setSubmitMessage("Message sent successfully. I will reply soon.");
                 toast.success("Email sent successfully!");
               }}
             >
@@ -239,6 +276,18 @@ export default function Contact() {
                 maxLength={5000}
               />
               <SubmitBtn />
+              <p
+                aria-live="polite"
+                className={`text-sm ${
+                  submitStatus === "error"
+                    ? "text-[#ff7a7a]"
+                    : submitStatus === "success"
+                    ? "text-accent"
+                    : "text-text-muted"
+                }`}
+              >
+                {submitMessage}
+              </p>
             </form>
           </div>
         </div>
