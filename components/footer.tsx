@@ -2,40 +2,36 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="mb-10 px-4 text-center text-gray-500">
-      <small className="mb-2 block text-xs">
-        &copy; 2024 Mohammad Yassine. All rights reserved.
-      </small>
-      <p className="text-xs">
-        <span className="font-semibold">About this portfolio:</span> Built with
-        React & Next.js (App Router & Server Actions), TypeScript, Tailwind CSS,
-        Framer Motion, React Email & Resend. Deployed on Vercel.
-      </p>
-      <div className="mt-4 flex justify-center space-x-4 text-xs">
-        <a
-          href="https://www.linkedin.com/in/mohammad-habib-yassine-6403aa242"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
-        >
-          LinkedIn
-        </a>
-        <span>•</span>
-        <a
-          href="https://github.com/ausminatalli"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
-        >
-          GitHub
-        </a>
-        <span>•</span>
-        <a
-          href="mailto:mohammadhabibyassine@gmail.com"
-          className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
-        >
-          Email
-        </a>
+    <footer className="border-t border-[var(--border)] py-8 px-6">
+      <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <small className="text-text-muted text-xs">
+          &copy; {new Date().getFullYear()} Mohammad Yassine. All rights reserved.
+        </small>
+
+        <div className="flex items-center gap-6 text-xs text-text-muted">
+          <a
+            href="https://www.linkedin.com/in/mohammad-habib-yassine-6403aa242"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-accent transition-colors"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/mohammadhabibyassine"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-accent transition-colors"
+          >
+            GitHub
+          </a>
+          <a
+            href="mailto:mohammadhabibyassine@gmail.com"
+            className="hover:text-accent transition-colors"
+          >
+            Email
+          </a>
+        </div>
       </div>
     </footer>
   );

@@ -1,173 +1,201 @@
 "use client";
 
-import React from "react";
-import SectionHeading from "./section-heading";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { skillsData } from "@/lib/data";
 import { useSectionInView } from "@/lib/hooks";
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const fadeInAnimationVariants = {
-  initial: {
-    opacity: 0,
-    y: 100,
-  },
-  animate: (index: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.05 * index,
-    },
-  }),
-};
+gsap.registerPlugin(ScrollTrigger);
 
-// Categorize skills for better organization
-const skillCategories = {
-  "Programming Languages": [
-    "JavaScript",
-    "TypeScript",
-    "PHP",
-    "Python",
-    "Java",
-    "C#",
-  ],
-  "Frontend Technologies": [
+const skillCategories: Record<string, string[]> = {
+  Languages: ["JavaScript", "TypeScript", "PHP", "Python", "Java"],
+  Frontend: [
     "HTML",
     "CSS",
     "React.js",
     "Next.js",
+    "React Native",
+    "Vue.js",
+    "Angular.js",
     "Redux",
     "Tailwind CSS",
     "Bootstrap",
     "Sass",
+    "Laravel Blade",
   ],
-  "Backend Technologies": [
+  Backend: [
     "Node.js",
     "Express.js",
+    "Fastify",
     "Laravel",
-    "Spring Boot",
     "Django",
     "Flask",
-    ".NET Core",
   ],
-  Databases: ["MySQL", "MongoDB", "PostgreSQL", "DynamoDB"],
-  "Tools & DevOps": [
+  Databases: ["MySQL", "MongoDB", "PostgreSQL", "DynamoDB", "Redis", "RabbitMQ"],
+  "DevOps & Tools": [
+    "Docker",
     "Git",
     "GitHub",
+    "GitHub Actions",
     "GitLab",
     "AWS",
+    "Cloudflare",
     "Vercel",
     "Postman",
     "Swagger/OpenAPI",
     "GraphQL",
-  ],
-  "Libraries & Frameworks": [
-    "Sequelize",
-    "Prisma",
-    "WordPress",
     "Cloudinary",
     "Stripe",
     "Jest",
+    "Supertest",
+    "Socket.io",
+    "n8n",
+    "Sequelize",
+    "Prisma",
   ],
 };
 
-export default function Skills() {
-  const { ref } = useSectionInView("Skills");
+// Fibonacci sphere for 3D tag cloud
+function getSphericalPositions(count: number, radius: number) {
+  const positions: { x: number; y: number; z: number }[] = [];
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
 
-  const getSkillsByCategory = (category: string) => {
-    const categorySkills =
-      skillCategories[category as keyof typeof skillCategories];
-    return skillsData.filter((skill) => categorySkills.includes(skill.name));
-  };
+  for (let i = 0; i < count; i++) {
+    const y = 1 - (i / (count - 1)) * 2;
+    const radiusAtY = Math.sqrt(1 - y * y);
+    const theta = goldenAngle * i;
+
+    positions.push({
+      x: Math.cos(theta) * radiusAtY * radius,
+      y: y * radius,
+      z: Math.sin(theta) * radiusAtY * radius,
+    });
+  }
+
+  return positions;
+}
+
+export default function Skills() {
+  const { ref } = useSectionInView("Skills", 0.2);
+  const [activeTab, setActiveTab] = useState("Languages");
+  const barsRef = useRef<HTMLDivElement>(null);
+
+  const tagCloudSkills = useMemo(
+    () => skillsData.map((s) => s.name),
+    []
+  );
+
+  const positions = useMemo(
+    () => getSphericalPositions(tagCloudSkills.length, 220),
+    [tagCloudSkills.length]
+  );
+
+  const activeSkills = useMemo(() => {
+    const names = skillCategories[activeTab] || [];
+    return skillsData.filter((s) => names.includes(s.name));
+  }, [activeTab]);
+
+  // Animate proficiency bars on tab change
+  useEffect(() => {
+    if (!barsRef.current) return;
+    const bars = barsRef.current.querySelectorAll(".skill-bar-fill");
+    gsap.fromTo(
+      bars,
+      { scaleX: 0 },
+      {
+        scaleX: 1,
+        stagger: 0.05,
+        duration: 0.8,
+        ease: "power2.out",
+      }
+    );
+  }, [activeTab]);
 
   return (
-    <section
-      id="skills"
-      ref={ref}
-      className="mb-28 max-w-[53rem] scroll-mt-28 text-center sm:mb-40"
-    >
-      <SectionHeading>My Technical Skills</SectionHeading>
+    <section ref={ref} id="skills" className="scroll-mt-16 py-32">
+      <div className="max-w-[1400px] mx-auto px-6">
+        {/* Section label */}
+        <div className="mb-20">
+          <span className="text-mono text-text-muted">03</span>
+          <h2 className="heading-display heading-lg mt-2">SKILLS</h2>
+        </div>
 
-      <div className="space-y-8">
-        {Object.entries(skillCategories).map(([category, _], categoryIndex) => (
-          <div key={category} className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-white/90">
-              {category}
-            </h3>
-            <ul className="flex flex-wrap justify-center gap-2 text-lg text-gray-800">
-              {getSkillsByCategory(category).map((skill, index) => (
-                <motion.li
-                  className="bg-white borderBlack rounded-xl px-5 py-3 dark:bg-white/10 dark:text-white/80 shadow-md hover:shadow-lg transition-all duration-300"
-                  key={skill.name}
-                  variants={fadeInAnimationVariants}
-                  initial="initial"
-                  whileInView="animate"
-                  whileHover={{
-                    scale: 1.05,
-                    y: -2,
-                    boxShadow: "0px 8px 25px rgba(0,0,0,0.15)",
-                    transition: { duration: 0.3, ease: "easeInOut" },
+        {/* 3D Tag Cloud */}
+        <div className="tag-cloud-container mx-auto mb-24">
+          <div className="tag-cloud">
+            {tagCloudSkills.map((skill, i) => {
+              const pos = positions[i];
+              // Calculate perspective-aware opacity and scale
+              const scale = ((pos.z + 220) / 440) * 0.6 + 0.4;
+              const opacity = ((pos.z + 220) / 440) * 0.7 + 0.3;
+
+              return (
+                <span
+                  key={skill}
+                  className="tag-item"
+                  style={{
+                    transform: `translate3d(${pos.x}px, ${pos.y}px, ${pos.z}px)`,
+                    opacity,
+                    fontSize: `${11 + scale * 4}px`,
                   }}
-                  viewport={{ once: true }}
-                  custom={index}
                 >
-                  <div className="flex flex-col items-center space-y-2">
-                    <Image
-                      src={skill.imageUrl}
-                      width={40}
-                      height={40}
-                      alt={`${skill.name} logo`}
-                      className="transition-transform duration-300 hover:scale-110"
-                    />
-                    <span className="text-sm font-medium text-gray-700 dark:text-white/80">
-                      {skill.name}
-                    </span>
-                  </div>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      {/* Additional Skills Summary */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        viewport={{ once: true }}
-        className="mt-12 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800/50 dark:to-gray-700/50 rounded-xl shadow-lg"
-      >
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-          Additional Expertise
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm text-gray-600 dark:text-white/70">
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-            <span>RESTful API Design</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-            <span>Cloud Architecture (AWS)</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-            <span>Database Design & Optimization</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-            <span>Agile Development</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-            <span>CI/CD Pipelines</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
-            <span>System Architecture</span>
+                  {skill}
+                </span>
+              );
+            })}
           </div>
         </div>
-      </motion.div>
+
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {Object.keys(skillCategories).map((category) => (
+            <button
+              key={category}
+              className={`text-mono px-6 py-3 rounded-none border transition-all duration-300 ${
+                activeTab === category
+                  ? "bg-accent text-bg-primary border-accent"
+                  : "bg-transparent text-text-muted border-[var(--border-light)] hover:border-accent hover:text-accent"
+              }`}
+              onClick={() => setActiveTab(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+        {/* Skills Grid */}
+        <div ref={barsRef}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {activeSkills.map((skill) => (
+                <div
+                  key={skill.name}
+                  className="flex items-center gap-4 p-4 rounded border border-[var(--border)] bg-bg-secondary hover:border-accent/30 transition-all"
+                >
+                  <span className="font-body text-sm text-text-primary flex-shrink-0 w-28">
+                    {skill.name}
+                  </span>
+                  <div className="skill-bar flex-1">
+                    <div
+                      className="skill-bar-fill"
+                      style={{ width: "100%" }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
     </section>
   );
 }

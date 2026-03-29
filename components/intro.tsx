@@ -1,120 +1,152 @@
 "use client";
 
-import Image from "next/image";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { BsArrowRight, BsLinkedin } from "react-icons/bs";
 import { HiDownload } from "react-icons/hi";
-import { FaGithubSquare } from "react-icons/fa";
 import { useSectionInView } from "@/lib/hooks";
 import { useActiveSectionContext } from "@/context/active-section-context";
+import dynamic from "next/dynamic";
+import Marquee from "./marquee";
+import gsap from "gsap";
+
+const HeroScene = dynamic(() => import("./hero-scene"), { ssr: false });
 
 export default function Intro() {
   const { ref } = useSectionInView("Home", 0.5);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 2.5 });
+
+      // Eyebrow
+      tl.from(".hero-eyebrow", {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        ease: "power3.out",
+      });
+
+      // Words curtain reveal
+      tl.from(
+        ".hero-word",
+        {
+          y: "100%",
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power4.out",
+        },
+        "-=0.3"
+      );
+
+      // Sub line
+      tl.from(
+        ".hero-subline",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+        "-=0.4"
+      );
+
+      // CTAs
+      tl.from(
+        ".hero-cta",
+        {
+          opacity: 0,
+          y: 20,
+          stagger: 0.1,
+          duration: 0.5,
+          ease: "power3.out",
+        },
+        "-=0.3"
+      );
+
+      // Scene fade in
+      tl.from(
+        ".hero-scene",
+        {
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out",
+        },
+        "-=0.8"
+      );
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section
-      ref={ref}
-      id="home"
-      className="mb-28 max-w-[50rem] text-center sm:mb-0 scroll-mt-[100rem]"
-    >
-      <div className="flex items-center justify-center">
-        <div className="relative">
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              type: "tween",
-              duration: 0.2,
-            }}
-          >
-            <Image
-              src="/MOHAMMADYASSINE.jpeg"
-              alt="Mohammad Yassine portrait"
-              width="192"
-              height="192"
-              quality="95"
-              priority={true}
-              className="h-24 w-24 rounded-full object-cover border-[0.35rem] border-white shadow-xl"
-            />
-          </motion.div>
+    <section ref={ref} id="home" className="scroll-mt-16">
+      <div
+        ref={heroRef}
+        className="min-h-screen flex flex-col justify-center px-6 max-w-[1400px] mx-auto pt-16"
+      >
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-4">
+          {/* LEFT COLUMN — Text */}
+          <div className="lg:w-[60%] flex flex-col gap-6">
+            {/* Eyebrow */}
+            <div className="hero-eyebrow flex items-center gap-3">
+              <div className="pulsing-dot" />
+              <span className="text-mono text-accent">AVAILABLE FOR WORK</span>
+            </div>
 
-          <motion.span
-            className="absolute bottom-0 right-0 text-4xl"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              type: "spring",
-              stiffness: 125,
-              delay: 0.1,
-              duration: 0.7,
-            }}
-          >
-            👋
-          </motion.span>
+            {/* Main headline */}
+            <div>
+              <div className="hero-word-mask">
+                <h1 className="hero-word heading-display heading-xl">
+                  SOFTWARE
+                </h1>
+              </div>
+              <div className="hero-word-mask">
+                <h1 className="hero-word heading-display heading-xl">
+                  ENGINEER
+                </h1>
+              </div>
+            </div>
+
+            {/* Subline */}
+            <p className="hero-subline text-body text-lg max-w-[500px]">
+              Building products people love — from Beirut to the world
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-4 mt-2">
+              <Link
+                href="#projects"
+                className="hero-cta magnetic-btn inline-flex items-center gap-2 px-8 py-4 bg-accent text-bg-primary font-display font-bold text-sm tracking-wide rounded-none hover:bg-[#b8ea4f] transition-colors"
+                onClick={() => {
+                  setActiveSection("Projects");
+                  setTimeOfLastClick(Date.now());
+                }}
+              >
+                View Work
+              </Link>
+
+              <a
+                href="/MohammadYassineCV.pdf"
+                download
+                className="hero-cta magnetic-btn inline-flex items-center gap-2 px-8 py-4 border border-[var(--border-medium)] text-text-primary font-display font-medium text-sm tracking-wide rounded-none hover:border-accent hover:text-accent transition-all"
+              >
+                Download CV
+                <HiDownload className="text-sm" />
+              </a>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN — Three.js Canvas (all screens) */}
+          <div className="hero-scene lg:w-[40%] w-full h-[350px] md:h-[400px] lg:h-[500px]">
+            <HeroScene />
+          </div>
         </div>
+
+        {/* Marquee strip */}
+        <Marquee />
       </div>
-
-      <motion.h1
-        className="mb-10 mt-4 px-4 text-2xl font-medium !leading-[1.5] sm:text-4xl"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <span className="font-bold">Hello, I'm Mohammad Yassine.</span> I'm a{" "}
-        <span className="font-bold">Software Engineer</span> with{" "}
-        <span className="font-bold">over 5 years</span> of experience. I enjoy
-        building <span className="italic">scalable web applications</span>. My
-        focus is <span className="underline">modern web technologies</span> like
-        React, Laravel, and cloud solutions.
-      </motion.h1>
-
-      <motion.div
-        className="flex flex-col sm:flex-row items-center justify-center gap-2 px-4 text-lg font-medium"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          delay: 0.1,
-        }}
-      >
-        <Link
-          href="#contact"
-          className="group bg-gray-900 text-white px-7 py-3 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition"
-          onClick={() => {
-            setActiveSection("Contact");
-            setTimeOfLastClick(Date.now());
-          }}
-        >
-          Contact me here{" "}
-          <BsArrowRight className="opacity-70 group-hover:translate-x-1 transition" />
-        </Link>
-
-        <a
-          className="group bg-white px-7 py-3 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10"
-          href="/MohammadYassineCV.pdf"
-          download
-        >
-          Download CV{" "}
-          <HiDownload className="opacity-60 group-hover:translate-y-1 transition" />
-        </a>
-
-        <a
-          className="bg-white p-4 text-gray-700 hover:text-gray-950 flex items-center gap-2 rounded-full focus:scale-[1.15] hover:scale-[1.15] active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"
-          href="https://www.linkedin.com/in/mohammad-habib-yassine-6403aa242"
-          target="_blank"
-        >
-          <BsLinkedin />
-        </a>
-
-        <a
-          className="bg-white p-4 text-gray-700 flex items-center gap-2 text-[1.35rem] rounded-full focus:scale-[1.15] hover:scale-[1.15] hover:text-gray-950 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10 dark:text-white/60"
-          href="https://github.com/ausminatalli"
-          target="_blank"
-        >
-          <FaGithubSquare />
-        </a>
-      </motion.div>
     </section>
   );
 }
