@@ -9,6 +9,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -49,12 +50,14 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       // Phase 1: Letter-by-letter name reveal with stagger
       tl.fromTo(
         ".pre-letter",
-        { y: 80, opacity: 0, rotateX: -90 },
+        { y: isMobile ? 28 : 80, opacity: 0, rotateX: isMobile ? 0 : -90 },
         {
           y: 0,
           opacity: 1,
           rotateX: 0,
-          stagger: 0.06,
+          stagger: isMobile
+            ? { each: 0.025, from: "center" }
+            : { each: 0.06, from: "center" },
           duration: 0.5,
           ease: "back.out(1.7)",
           delay: 0.3,
@@ -64,8 +67,8 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       // Phase 2: Title slides up
       tl.fromTo(
         ".pre-title",
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        { y: isMobile ? 14 : 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: isMobile ? 0.4 : 0.5, ease: "power3.out" },
         "-=0.2"
       );
 
@@ -139,7 +142,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[9999] pointer-events-auto"
+      className="fixed inset-0 z-[9999] pointer-events-auto overflow-hidden"
       style={{ perspective: "800px" }}
     >
       {/* Top panel */}
@@ -173,11 +176,11 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
         {/* Name — letter by letter */}
         <div className="flex flex-col items-center gap-1" style={{ perspective: "600px" }}>
-          <div className="flex overflow-hidden">
+          <div className="flex justify-center overflow-hidden">
             {firstName.split("").map((char, i) => (
               <span
                 key={`f-${i}`}
-                className="pre-letter inline-block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter"
+                className="pre-letter inline-block text-[1.75rem] sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter"
                 style={{
                   fontFamily: "var(--font-display)",
                   color: "var(--text-primary)",
@@ -188,11 +191,11 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
               </span>
             ))}
           </div>
-          <div className="flex overflow-hidden">
+          <div className="flex justify-center overflow-hidden">
             {lastName.split("").map((char, i) => (
               <span
                 key={`l-${i}`}
-                className="pre-letter inline-block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter"
+                className="pre-letter inline-block text-[1.75rem] sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter"
                 style={{
                   fontFamily: "var(--font-display)",
                   color: "var(--accent)",
@@ -207,7 +210,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
         {/* Title */}
         <p
-          className="pre-title mt-6 text-xs md:text-sm tracking-[0.3em] uppercase"
+          className="pre-title mt-6 text-[10px] sm:text-xs md:text-sm tracking-[0.18em] md:tracking-[0.3em] uppercase text-center px-4"
           style={{
             fontFamily: "var(--font-mono)",
             color: "var(--text-muted)",
@@ -234,7 +237,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       </div>
 
       {/* Bottom bar — counter + progress */}
-      <div className="absolute bottom-8 left-6 right-6 z-10 flex items-center gap-4">
+      <div className="absolute bottom-6 sm:bottom-8 left-4 sm:left-6 right-4 sm:right-6 z-10 flex items-center gap-3 sm:gap-4">
         <span
           className="text-xs tabular-nums"
           style={{

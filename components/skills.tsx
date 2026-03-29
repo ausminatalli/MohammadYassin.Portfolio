@@ -80,6 +80,7 @@ function getSphericalPositions(count: number, radius: number) {
 export default function Skills() {
   const { ref } = useSectionInView("Skills", 0.2);
   const [activeTab, setActiveTab] = useState("Languages");
+  const [cloudRadius, setCloudRadius] = useState(220);
   const barsRef = useRef<HTMLDivElement>(null);
 
   const tagCloudSkills = useMemo(
@@ -88,8 +89,8 @@ export default function Skills() {
   );
 
   const positions = useMemo(
-    () => getSphericalPositions(tagCloudSkills.length, 220),
-    [tagCloudSkills.length]
+    () => getSphericalPositions(tagCloudSkills.length, cloudRadius),
+    [tagCloudSkills.length, cloudRadius]
   );
 
   const activeSkills = useMemo(() => {
@@ -113,6 +114,24 @@ export default function Skills() {
     );
   }, [activeTab]);
 
+  useEffect(() => {
+    const updateCloudRadius = () => {
+      if (window.innerWidth < 400) {
+        setCloudRadius(110);
+        return;
+      }
+      if (window.innerWidth < 768) {
+        setCloudRadius(130);
+        return;
+      }
+      setCloudRadius(220);
+    };
+
+    updateCloudRadius();
+    window.addEventListener("resize", updateCloudRadius);
+    return () => window.removeEventListener("resize", updateCloudRadius);
+  }, []);
+
   return (
     <section ref={ref} id="skills" className="scroll-mt-16 py-32">
       <div className="max-w-[1400px] mx-auto px-6">
@@ -128,8 +147,9 @@ export default function Skills() {
             {tagCloudSkills.map((skill, i) => {
               const pos = positions[i];
               // Calculate perspective-aware opacity and scale
-              const scale = ((pos.z + 220) / 440) * 0.6 + 0.4;
-              const opacity = ((pos.z + 220) / 440) * 0.7 + 0.3;
+              const depthRange = cloudRadius * 2;
+              const scale = ((pos.z + cloudRadius) / depthRange) * 0.6 + 0.4;
+              const opacity = ((pos.z + cloudRadius) / depthRange) * 0.7 + 0.3;
 
               return (
                 <span

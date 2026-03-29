@@ -104,30 +104,30 @@ export default function Contact() {
           <div>
             {/* Terminal block */}
             <div className="terminal-block bg-bg-secondary border border-[var(--border)] rounded p-6 mb-12">
-              <div className="terminal-line flex gap-4">
+              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
                 <span className="text-text-muted">&gt;</span>
-                <span className="key">location:</span>
-                <span className="value">Beirut, Lebanon | Open to Remote</span>
+                <span className="key shrink-0">location:</span>
+                <span className="value min-w-0">Beirut, Lebanon | Open to Remote</span>
               </div>
-              <div className="terminal-line flex gap-4">
+              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
                 <span className="text-text-muted">&gt;</span>
-                <span className="key">email:</span>
-                <span className="value">mohammadhabibyassine@gmail.com</span>
+                <span className="key shrink-0">email:</span>
+                <span className="value min-w-0">mohammadhabibyassine@gmail.com</span>
               </div>
-              <div className="terminal-line flex gap-4">
+              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
                 <span className="text-text-muted">&gt;</span>
-                <span className="key">phone:</span>
-                <span className="value">+961 81653405</span>
+                <span className="key shrink-0">phone:</span>
+                <span className="value min-w-0">+961 81653405</span>
               </div>
-              <div className="terminal-line flex gap-4">
+              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
                 <span className="text-text-muted">&gt;</span>
-                <span className="key">status:</span>
-                <span className="value">available_for_work</span>
+                <span className="key shrink-0">status:</span>
+                <span className="value min-w-0">available_for_work</span>
               </div>
-              <div className="terminal-line flex gap-4">
+              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
                 <span className="text-text-muted">&gt;</span>
-                <span className="key">response:</span>
-                <span className="value">
+                <span className="key shrink-0">response:</span>
+                <span className="value min-w-0">
                   within_24h{" "}
                   <span className="inline-block w-2 h-4 bg-accent animate-blink-cursor ml-1" />
                 </span>

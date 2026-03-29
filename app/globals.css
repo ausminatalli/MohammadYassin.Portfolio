@@ -57,12 +57,17 @@ html {
   scroll-behavior: auto; /* Lenis handles smooth scroll */
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-body);
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -390,10 +395,11 @@ body {
    ═══════════════════════════════════════════════ */
 .tag-cloud-container {
   perspective: 800px;
-  width: 520px;
-  height: 520px;
+  width: min(520px, calc(100vw - 3rem));
+  height: min(520px, calc(100vw - 3rem));
   position: relative;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .tag-cloud {
@@ -548,6 +554,8 @@ body {
 
 .terminal-block .value {
   color: var(--text-primary);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* CTA wipe button */
@@ -647,8 +655,8 @@ body {
   }
 
   .tag-cloud-container {
-    width: 300px;
-    height: 300px;
+    width: min(300px, calc(100vw - 3rem));
+    height: min(300px, calc(100vw - 3rem));
   }
 
   .timeline-line,
