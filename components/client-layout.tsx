@@ -25,7 +25,7 @@ export default function ClientLayout({
   return (
     <ThemeContextProvider>
       <ActiveSectionContextProvider>
-        <Preloader onComplete={handlePreloaderComplete} />
+        {!isLoaded && <Preloader onComplete={handlePreloaderComplete} />}
         <SmoothScroll>
           <CustomCursor />
           <ScrollProgress />

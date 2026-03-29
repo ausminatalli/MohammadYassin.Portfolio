@@ -30,11 +30,11 @@ export default function ThemeContextProvider({
     const stored = window.localStorage.getItem("theme") as Theme | null;
     if (stored) {
       setTheme(stored);
+      document.documentElement.classList.remove("dark", "light");
       document.documentElement.classList.add(stored);
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setTheme("light");
-      document.documentElement.classList.add("light");
     } else {
+      setTheme("dark");
+      document.documentElement.classList.remove("dark", "light");
       document.documentElement.classList.add("dark");
     }
   }, []);

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useSectionInView } from "@/lib/hooks";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import profileImage from "@/public/Mohammadyassine.jpeg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +13,7 @@ export default function About() {
   const { ref } = useSectionInView("About", 0.3);
   const sectionRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const bioRef = useRef<HTMLParagraphElement>(null);
 
   const bioText =
     "Full-Stack Software Engineer with 5+ years of experience designing and shipping scalable web and mobile applications using React, Next.js, React Native, Laravel, Node.js, TypeScript, and Vue.js. Proven ability to own features end-to-end — from database schema design and REST/GraphQL API architecture to cloud deployment and CI/CD automation. Experienced with PostgreSQL/MySQL optimization, Redis caching, Docker-based workflows, AWS, and unit/integration testing. Comfortable mentoring junior developers, conducting code reviews, and working in Agile/Scrum teams to scale platforms and improve performance.";
@@ -27,49 +29,55 @@ export default function About() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Pin the section
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: "+=150%",
-        pin: true,
-        pinSpacing: true,
-      });
+      const shouldPinSection = window.matchMedia("(min-width: 1024px)").matches;
+
+      if (shouldPinSection) {
+        // Pin the section on desktop only to keep scroll smooth on smaller devices.
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=120%",
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+        });
+      }
 
       // Photo slide in
       gsap.fromTo(
         ".about-photo",
-        { x: -100, opacity: 0, filter: "grayscale(1)" },
+        { x: -60, autoAlpha: 0 },
         {
           x: 0,
-          opacity: 1,
-          filter: "grayscale(0)",
+          autoAlpha: 1,
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 60%",
             end: "top 10%",
-            scrub: 1.2,
+            scrub: 0.8,
           },
         }
       );
 
-      // Word by word reveal
-      gsap.fromTo(
-        ".bio-word",
-        { opacity: 0.15 },
-        {
-          opacity: 1,
-          stagger: 0.02,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 40%",
-            end: "+=100%",
-            scrub: 1,
-          },
-        }
-      );
+      // Bio reveal
+      if (bioRef.current) {
+        gsap.fromTo(
+          bioRef.current,
+          { y: 18, autoAlpha: 0.2 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 50%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
 
       // Stats counter animation
       stats.forEach((stat, i) => {
@@ -132,24 +140,25 @@ export default function About() {
               }}
             >
               <Image
-                src="/Mohammadyassine.jpeg"
+                src={profileImage}
                 alt="Mohammad Yassine"
                 width={500}
                 height={600}
                 className="w-full h-auto object-cover"
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
+                unoptimized
               />
             </div>
           </div>
 
           {/* Bio */}
           <div className="lg:w-[60%]">
-            <p className="text-2xl md:text-3xl font-body font-light leading-relaxed">
-              {bioText.split(" ").map((word, i) => (
-                <span key={i} className="bio-word inline-block mr-[0.3em]">
-                  {word}
-                </span>
-              ))}
+            <p
+              ref={bioRef}
+              className="text-2xl md:text-3xl font-body font-light leading-relaxed"
+            >
+              {bioText}
             </p>
 
             {/* Stats Row */}

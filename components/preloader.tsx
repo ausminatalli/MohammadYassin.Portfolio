@@ -5,108 +5,131 @@ import gsap from "gsap";
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const hasCompletedRef = useRef(false);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    // Counter animation — 0 to 100
-    const counter = { val: 0 };
-    gsap.to(counter, {
-      val: 100,
-      duration: 2,
-      ease: "power2.inOut",
-      onUpdate: () => setCount(Math.round(counter.val)),
-    });
+    let counterTween: gsap.core.Tween | null = null;
+    let timeline: gsap.core.Timeline | null = null;
 
-    // Master timeline
-    const tl = gsap.timeline({
-      onComplete: () => {
-        document.body.style.overflow = "";
-        onComplete();
-      },
-    });
+    const complete = () => {
+      if (hasCompletedRef.current) return;
+      hasCompletedRef.current = true;
 
-    // Phase 1: Letter-by-letter name reveal with stagger
-    tl.fromTo(
-      ".pre-letter",
-      { y: 80, opacity: 0, rotateX: -90 },
-      {
-        y: 0,
-        opacity: 1,
-        rotateX: 0,
-        stagger: 0.06,
-        duration: 0.5,
-        ease: "back.out(1.7)",
-        delay: 0.3,
+      if (overlayRef.current) {
+        overlayRef.current.style.display = "none";
       }
-    );
 
-    // Phase 2: Title slides up
-    tl.fromTo(
-      ".pre-title",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-      "-=0.2"
-    );
+      counterTween?.kill();
+      timeline?.kill();
+      document.body.style.overflow = previousOverflow;
+      setCount(100);
+      onComplete();
+    };
 
-    // Phase 3: Horizontal lines animate width
-    tl.fromTo(
-      ".pre-line",
-      { scaleX: 0 },
-      {
-        scaleX: 1,
-        stagger: 0.1,
+    const ctx = gsap.context(() => {
+      // Counter animation — 0 to 100
+      const counter = { val: 0 };
+      counterTween = gsap.to(counter, {
+        val: 100,
+        duration: 2,
+        ease: "power2.inOut",
+        onUpdate: () => setCount(Math.round(counter.val)),
+      });
+
+      // Master timeline
+      const tl = gsap.timeline({
+        onComplete: complete,
+      });
+      timeline = tl;
+
+      // Phase 1: Letter-by-letter name reveal with stagger
+      tl.fromTo(
+        ".pre-letter",
+        { y: 80, opacity: 0, rotateX: -90 },
+        {
+          y: 0,
+          opacity: 1,
+          rotateX: 0,
+          stagger: 0.06,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+          delay: 0.3,
+        }
+      );
+
+      // Phase 2: Title slides up
+      tl.fromTo(
+        ".pre-title",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        "-=0.2"
+      );
+
+      // Phase 3: Horizontal lines animate width
+      tl.fromTo(
+        ".pre-line",
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          stagger: 0.1,
+          duration: 0.4,
+          ease: "power2.out",
+        },
+        "-=0.3"
+      );
+
+      // Phase 4: Hold
+      tl.to({}, { duration: 0.4 });
+
+      // Phase 5: Everything fades and slides up
+      tl.to(".pre-content", {
+        y: -40,
+        opacity: 0,
         duration: 0.4,
-        ease: "power2.out",
-      },
-      "-=0.3"
-    );
+        ease: "power3.in",
+      });
 
-    // Phase 4: Hold
-    tl.to({}, { duration: 0.4 });
+      // Phase 6: Progress bar fills to completion
+      tl.to(".pre-progress", {
+        scaleX: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
 
-    // Phase 5: Everything fades and slides up
-    tl.to(".pre-content", {
-      y: -40,
-      opacity: 0,
-      duration: 0.4,
-      ease: "power3.in",
-    });
+      // Phase 7: Split screen wipe — two halves slide away
+      tl.to(
+        ".pre-panel-top",
+        {
+          yPercent: -100,
+          duration: 0.7,
+          ease: "power4.inOut",
+        },
+        "-=0.1"
+      );
+      tl.to(
+        ".pre-panel-bottom",
+        {
+          yPercent: 100,
+          duration: 0.7,
+          ease: "power4.inOut",
+        },
+        "<"
+      );
+    }, overlayRef);
 
-    // Phase 6: Progress bar fills to completion
-    tl.to(".pre-progress", {
-      scaleX: 0,
-      duration: 0.3,
-      ease: "power2.in",
-    });
-
-    // Phase 7: Split screen wipe — two halves slide away
-    tl.to(
-      ".pre-panel-top",
-      {
-        yPercent: -100,
-        duration: 0.7,
-        ease: "power4.inOut",
-      },
-      "-=0.1"
-    );
-    tl.to(
-      ".pre-panel-bottom",
-      {
-        yPercent: 100,
-        duration: 0.7,
-        ease: "power4.inOut",
-      },
-      "<"
-    );
-
-    // Phase 8: Remove overlay
-    tl.set(overlayRef.current, { display: "none" });
+    // Failsafe: never let the preloader trap the page.
+    const failsafeId = window.setTimeout(complete, 5000);
 
     return () => {
-      tl.kill();
-      document.body.style.overflow = "";
+      window.clearTimeout(failsafeId);
+      counterTween?.kill();
+      timeline?.kill();
+      ctx.revert();
+      document.body.style.overflow = previousOverflow;
     };
   }, [onComplete]);
 
@@ -116,7 +139,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[9999] pointer-events-none"
+      className="fixed inset-0 z-[9999] pointer-events-auto"
       style={{ perspective: "800px" }}
     >
       {/* Top panel */}
