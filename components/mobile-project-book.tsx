@@ -28,7 +28,7 @@ export default function MobileProjectBook() {
         setCurrentPage(nextPage);
         setFlipDirection(null);
         setTimeout(() => setIsFlipping(false), 50);
-      }, 500);
+      }, 700);
     },
     [currentPage, isFlipping, total]
   );
@@ -185,7 +185,7 @@ export default function MobileProjectBook() {
                   setCurrentPage(i);
                   setFlipDirection(null);
                   setTimeout(() => setIsFlipping(false), 50);
-                }, 500);
+                }, 700);
               }}
               aria-label={`Go to project ${i + 1}`}
             />

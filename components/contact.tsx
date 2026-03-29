@@ -20,6 +20,44 @@ export default function Contact() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+      if (isMobile) {
+        gsap.fromTo(
+          ".contact-word",
+          { y: 26, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.08,
+            duration: 0.55,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+
+        gsap.fromTo(
+          ".terminal-block",
+          { y: 20, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.55,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".terminal-block",
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+        return;
+      }
+
       // Heading reveal
       gsap.fromTo(
         ".contact-word",

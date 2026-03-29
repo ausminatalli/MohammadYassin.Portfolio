@@ -16,6 +16,30 @@ export default function Experience() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+      if (isMobile) {
+        gsap.set(".timeline-line-fill", { scaleY: 1 });
+        const entries = gsap.utils.toArray<HTMLElement>(".timeline-entry");
+        gsap.fromTo(
+          entries,
+          { y: 22, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.55,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 75%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+        return;
+      }
+
       // Draw center line
       gsap.fromTo(
         ".timeline-line-fill",

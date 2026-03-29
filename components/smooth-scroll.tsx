@@ -15,6 +15,16 @@ export default function SmoothScroll({
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // Native scroll performs better on mobile/touch and reduced-motion contexts.
+    if (isTouchDevice || prefersReducedMotion) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -25,15 +35,18 @@ export default function SmoothScroll({
 
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const onTick = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+
+    gsap.ticker.add(onTick);
 
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      lenis.off("scroll", ScrollTrigger.update);
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(onTick);
     };
   }, []);
 

@@ -80,13 +80,14 @@ function getSphericalPositions(count: number, radius: number) {
 export default function Skills() {
   const { ref } = useSectionInView("Skills", 0.2);
   const [activeTab, setActiveTab] = useState("Languages");
+  const [isMobile, setIsMobile] = useState(false);
   const [cloudRadius, setCloudRadius] = useState(220);
   const barsRef = useRef<HTMLDivElement>(null);
 
-  const tagCloudSkills = useMemo(
-    () => skillsData.map((s) => s.name),
-    []
-  );
+  const tagCloudSkills = useMemo(() => {
+    const allSkills = skillsData.map((s) => s.name);
+    return isMobile ? allSkills.slice(0, 20) : allSkills;
+  }, [isMobile]);
 
   const positions = useMemo(
     () => getSphericalPositions(tagCloudSkills.length, cloudRadius),
@@ -116,11 +117,14 @@ export default function Skills() {
 
   useEffect(() => {
     const updateCloudRadius = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+
       if (window.innerWidth < 400) {
         setCloudRadius(110);
         return;
       }
-      if (window.innerWidth < 768) {
+      if (mobile) {
         setCloudRadius(130);
         return;
       }
@@ -141,32 +145,45 @@ export default function Skills() {
           <h2 className="heading-display heading-lg mt-2">SKILLS</h2>
         </div>
 
-        {/* 3D Tag Cloud */}
-        <div className="tag-cloud-container mx-auto mb-24">
-          <div className="tag-cloud">
-            {tagCloudSkills.map((skill, i) => {
-              const pos = positions[i];
-              // Calculate perspective-aware opacity and scale
-              const depthRange = cloudRadius * 2;
-              const scale = ((pos.z + cloudRadius) / depthRange) * 0.6 + 0.4;
-              const opacity = ((pos.z + cloudRadius) / depthRange) * 0.7 + 0.3;
-
-              return (
-                <span
-                  key={skill}
-                  className="tag-item"
-                  style={{
-                    transform: `translate3d(${pos.x}px, ${pos.y}px, ${pos.z}px)`,
-                    opacity,
-                    fontSize: `${11 + scale * 4}px`,
-                  }}
-                >
-                  {skill}
-                </span>
-              );
-            })}
+        {/* 3D Tag Cloud (desktop) / Lightweight chips (mobile) */}
+        {isMobile ? (
+          <div className="mb-20 flex flex-wrap justify-center gap-2">
+            {tagCloudSkills.map((skill) => (
+              <span
+                key={skill}
+                className="text-mono text-[10px] px-3 py-1 border border-[var(--border-light)] text-text-muted"
+              >
+                {skill}
+              </span>
+            ))}
           </div>
-        </div>
+        ) : (
+          <div className="tag-cloud-container mx-auto mb-24">
+            <div className="tag-cloud">
+              {tagCloudSkills.map((skill, i) => {
+                const pos = positions[i];
+                // Calculate perspective-aware opacity and scale
+                const depthRange = cloudRadius * 2;
+                const scale = ((pos.z + cloudRadius) / depthRange) * 0.6 + 0.4;
+                const opacity = ((pos.z + cloudRadius) / depthRange) * 0.7 + 0.3;
+
+                return (
+                  <span
+                    key={skill}
+                    className="tag-item"
+                    style={{
+                      transform: `translate3d(${pos.x}px, ${pos.y}px, ${pos.z}px)`,
+                      opacity,
+                      fontSize: `${11 + scale * 4}px`,
+                    }}
+                  >
+                    {skill}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Category Tabs */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
