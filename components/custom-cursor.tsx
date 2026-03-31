@@ -22,50 +22,47 @@ export default function CustomCursor() {
   }, []);
 
   useEffect(() => {
-    // Only show on non-touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (isTouchDevice || prefersReducedMotion) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       target.current.x = e.clientX;
       target.current.y = e.clientY;
     };
 
-    const handleMouseEnter = () => {
-      if (cursorRef.current) {
-        cursorRef.current.classList.add("hovering");
+    const interactiveSelector = "a, button, [data-hover], .project-card";
+    const setHoverState = (hovering: boolean) => {
+      if (!cursorRef.current) return;
+      cursorRef.current.classList.toggle("hovering", hovering);
+      if (!hovering) cursorRef.current.classList.remove("text-mode");
+    };
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const targetEl = e.target as HTMLElement | null;
+      if (targetEl?.closest(interactiveSelector)) {
+        setHoverState(true);
       }
     };
 
-    const handleMouseLeave = () => {
-      if (cursorRef.current) {
-        cursorRef.current.classList.remove("hovering");
-        cursorRef.current.classList.remove("text-mode");
-      }
+    const handleMouseOut = (e: MouseEvent) => {
+      const nextEl = e.relatedTarget as HTMLElement | null;
+      if (nextEl?.closest(interactiveSelector)) return;
+      setHoverState(false);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
     rafId.current = requestAnimationFrame(animate);
-
-    // Add hover listeners to interactive elements
-    const addHoverListeners = () => {
-      const hoverables = document.querySelectorAll(
-        "a, button, [data-hover], .project-card"
-      );
-      hoverables.forEach((el) => {
-        el.addEventListener("mouseenter", handleMouseEnter);
-        el.addEventListener("mouseleave", handleMouseLeave);
-      });
-    };
-
-    // Use MutationObserver to handle dynamically added elements
-    const observer = new MutationObserver(addHoverListeners);
-    observer.observe(document.body, { childList: true, subtree: true });
-    addHoverListeners();
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
       cancelAnimationFrame(rafId.current);
-      observer.disconnect();
     };
   }, [animate]);
 

@@ -36,7 +36,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       const counter = { val: 0 };
       counterTween = gsap.to(counter, {
         val: 100,
-        duration: 2,
+        duration: 1.2,
         ease: "power2.inOut",
         onUpdate: () => setCount(Math.round(counter.val)),
       });
@@ -58,9 +58,9 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           stagger: isMobile
             ? { each: 0.025, from: "center" }
             : { each: 0.06, from: "center" },
-          duration: 0.5,
+          duration: 0.42,
           ease: "back.out(1.7)",
-          delay: 0.3,
+          delay: 0.12,
         }
       );
 
@@ -68,8 +68,8 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       tl.fromTo(
         ".pre-title",
         { y: isMobile ? 14 : 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: isMobile ? 0.4 : 0.5, ease: "power3.out" },
-        "-=0.2"
+        { y: 0, opacity: 1, duration: isMobile ? 0.35 : 0.42, ease: "power3.out" },
+        "-=0.12"
       );
 
       // Phase 3: Horizontal lines animate width
@@ -79,27 +79,27 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         {
           scaleX: 1,
           stagger: 0.1,
-          duration: 0.4,
+          duration: 0.32,
           ease: "power2.out",
         },
-        "-=0.3"
+        "-=0.2"
       );
 
       // Phase 4: Hold
-      tl.to({}, { duration: 0.4 });
+      tl.to({}, { duration: 0.18 });
 
       // Phase 5: Everything fades and slides up
       tl.to(".pre-content", {
         y: -40,
         opacity: 0,
-        duration: 0.4,
+        duration: 0.32,
         ease: "power3.in",
       });
 
       // Phase 6: Progress bar fills to completion
       tl.to(".pre-progress", {
         scaleX: 0,
-        duration: 0.3,
+        duration: 0.25,
         ease: "power2.in",
       });
 
@@ -108,16 +108,16 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         ".pre-panel-top",
         {
           yPercent: -100,
-          duration: 0.7,
+          duration: 0.55,
           ease: "power4.inOut",
         },
-        "-=0.1"
+        "-=0.08"
       );
       tl.to(
         ".pre-panel-bottom",
         {
           yPercent: 100,
-          duration: 0.7,
+          duration: 0.55,
           ease: "power4.inOut",
         },
         "<"
@@ -125,7 +125,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     }, overlayRef);
 
     // Failsafe: never let the preloader trap the page.
-    const failsafeId = window.setTimeout(complete, 5000);
+    const failsafeId = window.setTimeout(complete, 3200);
 
     return () => {
       window.clearTimeout(failsafeId);

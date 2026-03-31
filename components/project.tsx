@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback } from "react";
+import Image from "next/image";
 import { FaGithub, FaExternalLinkAlt, FaArrowRight } from "react-icons/fa";
 
 type ProjectCardProps = {
@@ -92,10 +93,13 @@ export default function ProjectCard({
 
         {/* Image */}
         <div className="card-image">
-          <img
+          <Image
             src={imageUrl}
             alt={`${title} screenshot`}
+            fill
             className="w-full h-full object-cover"
+            sizes="(max-width: 768px) 100vw, 520px"
+            loading="lazy"
           />
         </div>
 

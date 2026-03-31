@@ -1,6 +1,12 @@
 import "./globals.css";
+import type { Metadata } from "next";
 import { Inter, DM_Sans, JetBrains_Mono } from "next/font/google";
 import ClientLayout from "@/components/client-layout";
+
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(
+  /\/$/,
+  ""
+);
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,10 +26,64 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400"],
 });
 
-export const metadata = {
-  title: "Mohammad Yassine — Full-Stack Software Engineer",
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Mohammad Yassine — Full-Stack Software Engineer",
+    template: "%s | Mohammad Yassine",
+  },
   description:
-    "Full-Stack Software Engineer with 5+ years experience. Building scalable web applications with React, Next.js, Laravel, and cloud solutions.",
+    "Full-Stack Software Engineer with 5+ years of experience building scalable web and mobile applications with React, Next.js, React Native, Laravel, and cloud-native workflows.",
+  keywords: [
+    "Mohammad Yassine",
+    "Full-Stack Software Engineer",
+    "React",
+    "Next.js",
+    "React Native",
+    "Laravel",
+    "Node.js",
+    "TypeScript",
+    "Portfolio",
+  ],
+  authors: [{ name: "Mohammad Yassine" }],
+  creator: "Mohammad Yassine",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: "Mohammad Yassine — Full-Stack Software Engineer",
+    description:
+      "Portfolio of Mohammad Yassine, a full-stack engineer specializing in scalable web and mobile applications.",
+    siteName: "Mohammad Yassine Portfolio",
+    images: [
+      {
+        url: "/MOHAMMADYASSINE.png",
+        width: 1200,
+        height: 630,
+        alt: "Mohammad Yassine Portfolio Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mohammad Yassine — Full-Stack Software Engineer",
+    description:
+      "Portfolio of Mohammad Yassine, building scalable products with React, Next.js, Laravel, and Node.js.",
+    images: ["/MOHAMMADYASSINE.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#060608" },
+    { media: "(prefers-color-scheme: light)", color: "#f8f8f6" },
+  ],
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -34,6 +94,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
       <body>

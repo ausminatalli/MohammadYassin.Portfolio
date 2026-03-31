@@ -43,13 +43,9 @@
 /* ═══════════════════════════════════════════════
    BASE RESET
    ═══════════════════════════════════════════════ */
-* {
-  cursor: none !important;
-}
-
-@media (pointer: coarse) {
-  * {
-    cursor: auto !important;
+@media (pointer: fine) {
+  :root.cursor-enhanced * {
+    cursor: none !important;
   }
 }
 
@@ -1019,5 +1015,14 @@ body {
   .terminal-block {
     font-size: 13px;
     line-height: 1.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay,
+  .marquee-track,
+  .tag-cloud,
+  .pulsing-dot::before {
+    animation: none !important;
   }
 }

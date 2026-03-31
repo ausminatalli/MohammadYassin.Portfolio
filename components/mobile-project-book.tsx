@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { projectsData } from "@/lib/data";
 import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -99,10 +100,13 @@ export default function MobileProjectBook() {
 
           {/* Image */}
           <div className="book-page-image">
-            <img
+            <Image
               src={project.imageUrl}
               alt={`${project.title} screenshot`}
+              fill
               className="w-full h-full object-cover"
+              sizes="(max-width: 768px) 100vw, 380px"
+              loading="lazy"
             />
             <div className="book-page-image-overlay" />
           </div>

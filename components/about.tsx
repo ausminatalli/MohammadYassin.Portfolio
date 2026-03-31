@@ -8,6 +8,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const ABOUT_STATS = [
+  { value: 5, suffix: "+", label: "Years Exp" },
+  { value: 8, suffix: "+", label: "Projects" },
+  { value: 30, suffix: "+", label: "Technologies" },
+  { value: 3, suffix: "+", label: "Countries" },
+] as const;
+
 export default function About() {
   const { ref } = useSectionInView("About", 0.3);
   const sectionRef = useRef<HTMLElement>(null);
@@ -15,14 +22,7 @@ export default function About() {
   const bioRef = useRef<HTMLParagraphElement>(null);
 
   const bioText =
-    "Full-Stack Software Engineer with 5+ years of experience designing and shipping scalable web and mobile applications using React, Next.js, React Native, Laravel, Node.js, TypeScript, and Vue.js. Proven ability to own features end-to-end — from database schema design and REST/GraphQL API architecture to cloud deployment and CI/CD automation. Experienced with PostgreSQL/MySQL optimization, Redis caching, Docker-based workflows, AWS, and unit/integration testing. Comfortable mentoring junior developers, conducting code reviews, and working in Agile/Scrum teams to scale platforms and improve performance.";
-
-  const stats = [
-    { value: 5, suffix: "+", label: "Years Exp" },
-    { value: 9, suffix: "+", label: "Projects" },
-    { value: 15, suffix: "+", label: "Technologies" },
-    { value: 3, suffix: "+", label: "Countries" },
-  ];
+    "Full-Stack Software Engineer with 5+ years of experience designing and shipping scalable web and mobile applications using React, Next.js, React Native, Laravel, Node.js, TypeScript, and Vue.js. Proven ability to own features end-to-end, from database schema design and REST/GraphQL API architecture to cloud deployment and CI/CD automation. Experienced with React Native (iOS and Android), PostgreSQL/MySQL optimization, Redis caching, Docker-based workflows, Cloudflare, AWS (S3, CloudFront), and unit/integration testing (Jest, Supertest). Comfortable mentoring junior developers, conducting code reviews, and working in Agile/Scrum teams to scale platforms and improve performance.";
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -79,7 +79,7 @@ export default function About() {
       }
 
       // Stats counter animation
-      stats.forEach((stat, i) => {
+      ABOUT_STATS.forEach((stat, i) => {
         const el = document.querySelector(`.stat-number-${i}`);
         if (!el) return;
 
@@ -165,7 +165,7 @@ export default function About() {
               ref={statsRef}
               className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-8 border-t border-[var(--border)]"
             >
-              {stats.map((stat, i) => (
+              {ABOUT_STATS.map((stat, i) => (
                 <div key={i} className="text-center md:text-left">
                   <span
                     className={`stat-number-${i} text-4xl md:text-5xl font-display font-bold text-accent`}

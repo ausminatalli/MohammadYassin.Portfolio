@@ -2,7 +2,6 @@
 
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 /* ══════════════════════════════════════════════════════════════
@@ -393,7 +392,7 @@ function WireframeCage() {
 
   return (
     <mesh ref={meshRef} material={mat}>
-      <icosahedronGeometry args={[2.2, 4]} />
+      <icosahedronGeometry args={[2.2, 3]} />
     </mesh>
   );
 }
@@ -402,8 +401,8 @@ function WireframeCage() {
 function Particles() {
   const ref = useRef<THREE.Points>(null);
   const pos = useMemo(() => {
-    const p = new Float32Array(500 * 3);
-    for (let i = 0; i < 500; i++) {
+    const p = new Float32Array(220 * 3);
+    for (let i = 0; i < 220; i++) {
       p[i * 3] = (Math.random() - 0.5) * 7;
       p[i * 3 + 1] = (Math.random() - 0.5) * 7;
       p[i * 3 + 2] = (Math.random() - 0.5) * 7;
@@ -416,7 +415,7 @@ function Particles() {
   return (
     <points ref={ref}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[pos, 3]} count={500} itemSize={3} />
+        <bufferAttribute attach="attributes-position" args={[pos, 3]} count={220} itemSize={3} />
       </bufferGeometry>
       <pointsMaterial size={0.018} color="#ffffff" transparent opacity={0.3} sizeAttenuation />
     </points>
@@ -429,7 +428,8 @@ export default function HeroScene() {
     <div className="w-full h-full min-h-[400px]">
       <Canvas
         camera={{ position: [0, 1.2, 4.5], fov: 40 }}
-        dpr={[1, 2]}
+        dpr={[1, 1.4]}
+        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         style={{ background: "transparent" }}
       >
         {/* Strong studio lighting */}
