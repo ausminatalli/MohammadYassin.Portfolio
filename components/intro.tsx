@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import { HiDownload } from "react-icons/hi";
 import { useSectionInView } from "@/lib/hooks";
@@ -18,28 +18,6 @@ export default function Intro() {
   const { ref } = useSectionInView("Home", 0.5);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
   const heroRef = useRef<HTMLDivElement>(null);
-  const [renderScene, setRenderScene] = useState(false);
-
-  useEffect(() => {
-    const updateSceneEligibility = () => {
-      const isLargeScreen = window.matchMedia("(min-width: 1024px)").matches;
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-      const saveDataEnabled = (
-        navigator as Navigator & { connection?: { saveData?: boolean } }
-      ).connection?.saveData;
-
-      setRenderScene(isLargeScreen && !prefersReducedMotion && !saveDataEnabled);
-    };
-
-    updateSceneEligibility();
-    window.addEventListener("resize", updateSceneEligibility);
-
-    return () => {
-      window.removeEventListener("resize", updateSceneEligibility);
-    };
-  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -165,17 +143,7 @@ export default function Intro() {
 
           {/* RIGHT COLUMN — Three.js Canvas (all screens) */}
           <div className="hero-scene lg:w-[40%] w-full h-[350px] md:h-[400px] lg:h-[500px]">
-            {renderScene ? (
-              <HeroScene />
-            ) : (
-              <div className="w-full h-full border border-[var(--border)] bg-bg-secondary relative overflow-hidden">
-                <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_30%_30%,var(--accent-dim),transparent_55%)]" />
-                <div className="absolute inset-0 opacity-20 bg-[linear-gradient(135deg,transparent_0%,var(--border-light)_50%,transparent_100%)]" />
-                <div className="relative z-10 h-full flex items-end p-6">
-                  <span className="text-mono text-text-muted">Performance Mode</span>
-                </div>
-              </div>
-            )}
+            <HeroScene />
           </div>
         </div>
 
