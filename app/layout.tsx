@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | Mohammad Yassine",
   },
   description:
-    "Full-Stack Software Engineer with 5+ years of experience building scalable web and mobile applications with React, Next.js, React Native, Laravel, and cloud-native workflows.",
+    "Full-stack software engineer with 5+ years of experience shipping production web and mobile applications across the full stack, from database schema and API architecture to cloud deployment and CI/CD.",
   keywords: [
     "Mohammad Yassine",
     "Full-Stack Software Engineer",
@@ -43,6 +43,9 @@ export const metadata: Metadata = {
     "Laravel",
     "Node.js",
     "TypeScript",
+    "Supabase",
+    "WebSockets",
+    "Cloudflare",
     "Portfolio",
   ],
   authors: [{ name: "Mohammad Yassine" }],
@@ -55,7 +58,7 @@ export const metadata: Metadata = {
     url: "/",
     title: "Mohammad Yassine — Full-Stack Software Engineer",
     description:
-      "Portfolio of Mohammad Yassine, a full-stack engineer specializing in scalable web and mobile applications.",
+      "Portfolio of Mohammad Yassine, a full-stack engineer specializing in production web and mobile applications.",
     siteName: "Mohammad Yassine Portfolio",
     images: [
       {
@@ -70,7 +73,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mohammad Yassine — Full-Stack Software Engineer",
     description:
-      "Portfolio of Mohammad Yassine, building scalable products with React, Next.js, Laravel, and Node.js.",
+      "Portfolio of Mohammad Yassine, building production products with React, Next.js, React Native, Laravel, and Node.js.",
     images: ["/MOHAMMADYASSINE.png"],
   },
   robots: {

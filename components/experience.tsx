@@ -141,12 +141,18 @@ export default function Experience() {
                   >
                     <div className="p-6 rounded bg-bg-secondary border border-[var(--border)] hover:border-accent/20 transition-all">
                       {/* Date */}
-                      <span className="text-mono text-accent text-[10px]">
-                        {item.date}
-                      </span>
+                      {item.date ? (
+                        <span className="text-mono text-accent text-[10px]">
+                          {item.date}
+                        </span>
+                      ) : null}
 
                       {/* Title */}
-                      <h3 className="font-display font-bold text-lg text-text-primary mt-2">
+                      <h3
+                        className={`font-display font-bold text-lg text-text-primary ${
+                          item.date ? "mt-2" : "mt-0"
+                        }`}
+                      >
                         {item.title}
                       </h3>
 

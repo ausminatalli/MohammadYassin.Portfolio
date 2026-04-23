@@ -100,14 +100,23 @@ export default function MobileProjectBook() {
 
           {/* Image */}
           <div className="book-page-image">
-            <Image
-              src={project.imageUrl}
-              alt={`${project.title} screenshot`}
-              fill
-              className="w-full h-full object-cover"
-              sizes="(max-width: 768px) 100vw, 380px"
-              loading="lazy"
-            />
+            {project.imageUrl ? (
+              <Image
+                src={project.imageUrl}
+                alt={`${project.title} screenshot`}
+                fill
+                className="w-full h-full object-cover"
+                sizes="(max-width: 768px) 100vw, 380px"
+                loading="lazy"
+              />
+            ) : (
+              <div className="absolute inset-0 flex flex-col items-start justify-end p-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.02)_35%,rgba(0,0,0,0.3)_100%)]">
+                <div className="mb-3 h-1 w-14 bg-[var(--accent)]/80" />
+                <p className="text-mono text-text-muted text-[10px] uppercase tracking-[0.2em]">
+                  Image coming soon
+                </p>
+              </div>
+            )}
             <div className="book-page-image-overlay" />
           </div>
 

@@ -10,8 +10,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ABOUT_STATS = [
   { value: 5, suffix: "+", label: "Years Exp" },
-  { value: 8, suffix: "+", label: "Projects" },
-  { value: 30, suffix: "+", label: "Technologies" },
+  { value: 5, suffix: "+", label: "Projects" },
+  { value: 25, suffix: "+", label: "Technologies" },
   { value: 3, suffix: "+", label: "Countries" },
 ] as const;
 
@@ -22,7 +22,7 @@ export default function About() {
   const bioRef = useRef<HTMLParagraphElement>(null);
 
   const bioText =
-    "Full-Stack Software Engineer with 5+ years of experience designing and shipping scalable web and mobile applications using React, Next.js, React Native, Laravel, Node.js, TypeScript, and Vue.js. Proven ability to own features end-to-end, from database schema design and REST/GraphQL API architecture to cloud deployment and CI/CD automation. Experienced with React Native (iOS and Android), PostgreSQL/MySQL optimization, Redis caching, Docker-based workflows, Cloudflare, AWS (S3, CloudFront), and unit/integration testing (Jest, Supertest). Comfortable mentoring junior developers, conducting code reviews, and working in Agile/Scrum teams to scale platforms and improve performance.";
+    "Full-Stack Software Engineer with 5+ years of experience designing and shipping production web and mobile applications across the full stack - from database schema and API architecture to cloud deployment and CI/CD. Proven track record owning projects end-to-end as a solo architect for international startup clients, with delivered products reaching thousands of active users. Comfortable working remotely across time zones or on-site, and experienced mentoring junior developers within Agile/Scrum teams.";
 
   useEffect(() => {
     if (!sectionRef.current) return;
