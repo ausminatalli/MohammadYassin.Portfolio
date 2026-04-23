@@ -121,7 +121,7 @@ export const projectsData = [
     description:
       "Built the full Vue.js frontend and Laravel backend for a digital wallet and payments platform with real-time transaction flows, live balance updates, optimistic UI patterns, retry logic, audit logging, and a WebSocket-powered transaction feed.",
     tags: ["Live", "Vue.js", "Laravel", "PostgreSQL"],
-    imageUrl: "/meacash.PNG",
+    imageUrl: "/meacash.png",
     githubrepo: "",
     demo: "",
   },
@@ -139,7 +139,7 @@ export const projectsData = [
     description:
       "Designed and built a Laravel-based content platform with a custom CMS and content pipeline, including structured content modeling, admin-controlled publishing workflows, and dynamic routing for non-technical editors.",
     tags: ["Live", "Laravel", "PostgreSQL", "Supabase"],
-    imageUrl: "/mouradvalley.PNG",
+    imageUrl: "/mouradvalley.png",
     githubrepo: "",
     demo: "https://mouradvalley.com/",
   },
@@ -148,7 +148,7 @@ export const projectsData = [
     description:
       "Built the marketing and service website for Beirut's on-demand courier platform, showing 2,000+ completed deliveries, a 30-minute average fulfillment time, and a 4.9/5 customer rating. The bilingual Arabic/English UI covers service tiers, pricing starting at $3, coverage zones, and a WhatsApp-integrated order flow for direct conversions.",
     tags: ["Live", "Next.js", "Tailwind CSS", "WhatsApp"],
-    imageUrl: "/midodelivery.PNG",
+    imageUrl: "/midodelivery.png",
     githubrepo: "",
     demo: "https://midodelivery.com/",
   },
