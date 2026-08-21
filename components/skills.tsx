@@ -1,257 +1,227 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef } from "react";
-import { skillsData } from "@/lib/data";
+import type { CSSProperties } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import { useSectionInView } from "@/lib/hooks";
-import { motion, AnimatePresence } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const skillCategories: Record<string, string[]> = {
-  Languages: [
-    "JavaScript (ES6+)",
-    "TypeScript",
-    "PHP",
-    "Python",
-    "Java",
-  ],
-  Frontend: [
-    "React.js",
-    "Next.js",
-    "Vue.js",
-    "Tailwind CSS",
-    "Blade",
-    "Shadcn/ui",
-    "Swagger/OpenAPI",
-  ],
-  Mobile: ["React Native", "Expo", "FCM Push Notifications"],
-  Backend: [
-    "Node.js",
-    "Express.js",
-    "Fastify",
-    "Laravel",
-    "Django",
-    "Flask",
-  ],
-  Databases: [
-    "PostgreSQL",
-    "MySQL",
-    "MongoDB",
-    "Supabase",
-    "Redis",
-    "Prisma",
-    "Sequelize",
-    "AWS S3",
-    "Cloudflare R2",
-  ],
-  "DevOps & Tools": [
-    "Docker",
-    "GitHub Actions",
-    "CI/CD pipelines",
-    "AWS",
-    "AWS CloudFront",
-    "Cloudflare CDN",
-    "Cloudflare DNS",
-    "DigitalOcean",
-    "Hetzner",
-    "Linux server administration",
-    "Git",
-  ],
-  "APIs & Testing": [
-    "REST API design",
-    "GraphQL",
-    "WebSockets",
-    "JWT",
-    "RBAC",
-    "n8n workflow automation",
-    "LLM API integration",
-    "OpenAI",
-    "Anthropic",
-    "Jest",
-    "Supertest",
-    "Postman",
-    "Agile/Scrum",
-    "TDD",
-    "PII data handling",
-  ],
+type SkillCategory = {
+  label: string;
+  shortLabel: string;
+  skills: { name: string; level: number }[];
+  hotspot: { left: number; width: number };
 };
 
-// Fibonacci sphere for 3D tag cloud
-function getSphericalPositions(count: number, radius: number) {
-  const positions: { x: number; y: number; z: number }[] = [];
-  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+const skillCategories: SkillCategory[] = [
+  {
+    label: "Languages",
+    shortLabel: "Languages",
+    skills: [
+      { name: "JavaScript (ES6+)", level: 90 },
+      { name: "TypeScript", level: 95 },
+      { name: "PHP", level: 95 },
+      { name: "Python", level: 90 },
+      { name: "Java", level: 70 },
+    ],
+    hotspot: { left: 18.5, width: 8.5 },
+  },
+  {
+    label: "Frontend",
+    shortLabel: "Frontend",
+    skills: [
+      { name: "React.js", level: 95 },
+      { name: "Next.js", level: 94 },
+      { name: "Vue.js", level: 88 },
+      { name: "Tailwind CSS", level: 92 },
+      { name: "Blade", level: 90 },
+    ],
+    hotspot: { left: 27.75, width: 7.8 },
+  },
+  {
+    label: "Mobile",
+    shortLabel: "Mobile",
+    skills: [
+      { name: "React Native", level: 91 },
+      { name: "Expo", level: 88 },
+      { name: "FCM Push", level: 84 },
+    ],
+    hotspot: { left: 36.3, width: 6.7 },
+  },
+  {
+    label: "Backend",
+    shortLabel: "Backend",
+    skills: [
+      { name: "Node.js", level: 94 },
+      { name: "Laravel", level: 95 },
+      { name: "Express.js", level: 92 },
+      { name: "Django", level: 87 },
+      { name: "Fastify", level: 86 },
+    ],
+    hotspot: { left: 43.7, width: 7.3 },
+  },
+  {
+    label: "Databases",
+    shortLabel: "Databases",
+    skills: [
+      { name: "PostgreSQL", level: 94 },
+      { name: "MySQL", level: 93 },
+      { name: "MongoDB", level: 89 },
+      { name: "Supabase", level: 91 },
+      { name: "Redis", level: 85 },
+    ],
+    hotspot: { left: 51.7, width: 8.4 },
+  },
+  {
+    label: "DevOps & Tools",
+    shortLabel: "DevOps",
+    skills: [
+      { name: "Docker", level: 91 },
+      { name: "GitHub Actions", level: 89 },
+      { name: "AWS", level: 87 },
+      { name: "Cloudflare", level: 88 },
+      { name: "Linux", level: 90 },
+    ],
+    hotspot: { left: 60.7, width: 10.5 },
+  },
+  {
+    label: "APIs & Testing",
+    shortLabel: "APIs & Testing",
+    skills: [
+      { name: "REST APIs", level: 95 },
+      { name: "GraphQL", level: 89 },
+      { name: "WebSockets", level: 91 },
+      { name: "Jest", level: 88 },
+      { name: "Postman", level: 93 },
+    ],
+    hotspot: { left: 71.8, width: 9.7 },
+  },
+];
 
-  for (let i = 0; i < count; i++) {
-    const y = 1 - (i / (count - 1)) * 2;
-    const radiusAtY = Math.sqrt(1 - y * y);
-    const theta = goldenAngle * i;
-
-    positions.push({
-      x: Math.cos(theta) * radiusAtY * radius,
-      y: y * radius,
-      z: Math.sin(theta) * radiusAtY * radius,
-    });
-  }
-
-  return positions;
-}
+const tubeEffects = [
+  { left: 22.45, color: "#7cff91", delay: "0s" },
+  { left: 36.25, color: "#58eaff", delay: "-.72s" },
+  { left: 50, color: "#70dcff", delay: "-1.44s" },
+  { left: 63.85, color: "#63ffe0", delay: "-2.16s" },
+  { left: 77.65, color: "#8dff82", delay: "-2.88s" },
+];
 
 export default function Skills() {
-  const { ref } = useSectionInView("Skills", 0.2);
-  const [activeTab, setActiveTab] = useState("Languages");
-  const [isMobile, setIsMobile] = useState(false);
-  const [cloudRadius, setCloudRadius] = useState(220);
-  const barsRef = useRef<HTMLDivElement>(null);
-
-  const tagCloudSkills = useMemo(() => {
-    const allSkills = skillsData.map((s) => s.name);
-    return isMobile ? allSkills.slice(0, 20) : allSkills;
-  }, [isMobile]);
-
-  const positions = useMemo(
-    () => getSphericalPositions(tagCloudSkills.length, cloudRadius),
-    [tagCloudSkills.length, cloudRadius]
-  );
-
-  const activeSkills = useMemo(() => {
-    const names = skillCategories[activeTab] || [];
-    return skillsData.filter((s) => names.includes(s.name));
-  }, [activeTab]);
-
-  // Animate proficiency bars on tab change
-  useEffect(() => {
-    if (!barsRef.current) return;
-    const bars = barsRef.current.querySelectorAll(".skill-bar-fill");
-    gsap.fromTo(
-      bars,
-      { scaleX: 0 },
-      {
-        scaleX: 1,
-        stagger: 0.05,
-        duration: 0.8,
-        ease: "power2.out",
-      }
-    );
-  }, [activeTab]);
-
-  useEffect(() => {
-    const updateCloudRadius = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-
-      if (window.innerWidth < 400) {
-        setCloudRadius(110);
-        return;
-      }
-      if (mobile) {
-        setCloudRadius(130);
-        return;
-      }
-      setCloudRadius(220);
-    };
-
-    updateCloudRadius();
-    window.addEventListener("resize", updateCloudRadius);
-    return () => window.removeEventListener("resize", updateCloudRadius);
-  }, []);
+  const { ref } = useSectionInView("Skills", 0.3);
+  const [activeCategory, setActiveCategory] = useState(0);
+  const active = skillCategories[activeCategory];
 
   return (
-    <section ref={ref} id="skills" className="scroll-mt-16 py-32">
-      <div className="max-w-[1400px] mx-auto px-6">
-        {/* Section label */}
-        <div className="mb-20">
-          <span className="text-mono text-text-muted">03</span>
-          <h2 className="heading-display heading-lg mt-2">SKILLS</h2>
+    <section
+      ref={ref}
+      id="skills"
+      className="skills-lab scroll-mt-0"
+      aria-labelledby="skills-lab-title"
+    >
+      <h2 id="skills-lab-title" className="sr-only">
+        Skills — Vibrant Skill Lab
+      </h2>
+
+      <div className="skills-lab-frame">
+        <Image
+          className="skills-lab-art"
+          src="/design/skills-vibrant-pixar-skill-lab-hd.webp"
+          alt="A vibrant futuristic laboratory with a glowing sphere of technology icons, a friendly robot, and illuminated skill capsules."
+          width={3440}
+          height={1920}
+          draggable={false}
+          priority
+          unoptimized
+        />
+
+        <div className="skills-tube-effects" aria-hidden="true">
+          {tubeEffects.map((tube, index) => (
+            <span
+              key={tube.left}
+              className="skills-tube-effect"
+              style={
+                {
+                  "--tube-left": `${tube.left}%`,
+                  "--tube-color": tube.color,
+                  "--tube-delay": tube.delay,
+                } as CSSProperties
+              }
+            >
+              <span className="skills-tube-ring" />
+              <span className="skills-tube-glass" />
+              <span className="skills-tube-liquid" />
+              <span className="skills-tube-particles">
+                {[0, 1, 2, 3].map((particle) => (
+                  <i key={`${index}-${particle}`} />
+                ))}
+              </span>
+            </span>
+          ))}
         </div>
 
-        {/* 3D Tag Cloud (desktop) / Lightweight chips (mobile) */}
-        {isMobile ? (
-          <div className="mb-20 flex flex-wrap justify-center gap-2">
-            {tagCloudSkills.map((skill) => (
-              <span
-                key={skill}
-                className="text-mono text-[10px] px-3 py-1 border border-[var(--border-light)] text-text-muted"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        ) : (
-          <div className="tag-cloud-container mx-auto mb-24">
-            <div className="tag-cloud">
-              {tagCloudSkills.map((skill, i) => {
-                const pos = positions[i];
-                // Calculate perspective-aware opacity and scale
-                const depthRange = cloudRadius * 2;
-                const scale = ((pos.z + cloudRadius) / depthRange) * 0.6 + 0.4;
-                const opacity = ((pos.z + cloudRadius) / depthRange) * 0.7 + 0.3;
-
-                return (
-                  <span
-                    key={skill}
-                    className="tag-item"
-                    style={{
-                      transform: `translate3d(${pos.x}px, ${pos.y}px, ${pos.z}px)`,
-                      opacity,
-                      fontSize: `${11 + scale * 4}px`,
-                    }}
-                  >
-                    {skill}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Category Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {Object.keys(skillCategories).map((category) => (
+        <div className="skills-lab-hotspots" aria-label="Skill categories">
+          {skillCategories.map((category, index) => (
             <button
-              key={category}
-              className={`text-mono px-6 py-3 rounded-none border transition-all duration-300 ${
-                activeTab === category
-                  ? "bg-accent text-bg-primary border-accent"
-                  : "bg-transparent text-text-muted border-[var(--border-light)] hover:border-accent hover:text-accent"
-              }`}
-              onClick={() => setActiveTab(category)}
+              key={category.label}
+              type="button"
+              className="skills-lab-hotspot"
+              style={
+                {
+                  "--hotspot-left": `${category.hotspot.left}%`,
+                  "--hotspot-width": `${category.hotspot.width}%`,
+                } as CSSProperties
+              }
+              aria-label={`Show ${category.label} skills`}
+              aria-pressed={activeCategory === index}
+              onClick={() => setActiveCategory(index)}
             >
-              {category}
+              <span>{category.label}</span>
             </button>
           ))}
         </div>
 
-        {/* Skills Grid */}
-        <div ref={barsRef}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        {activeCategory !== 0 && (
+          <div
+            className="skills-lab-readout"
+            data-count={active.skills.length}
+            aria-live="polite"
+          >
+            {active.skills.map((skill) => (
+              <div className="skills-lab-reading" key={skill.name}>
+                <span className="skills-lab-percent">{skill.level}%</span>
+                <span className="skills-lab-skill-name">{skill.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="skills-lab-mobile-ui">
+        <p className="skills-lab-mobile-kicker">Skills</p>
+        <h3>Vibrant Skill Lab</h3>
+
+        <div className="skills-lab-mobile-tabs" aria-label="Skill categories">
+          {skillCategories.map((category, index) => (
+            <button
+              key={category.label}
+              type="button"
+              className={activeCategory === index ? "is-active" : ""}
+              aria-pressed={activeCategory === index}
+              onClick={() => setActiveCategory(index)}
             >
-              {activeSkills.map((skill) => (
-                <div
-                  key={skill.name}
-                  className="flex items-center gap-4 p-4 rounded border border-[var(--border)] bg-bg-secondary hover:border-accent/30 transition-all"
-                >
-                  <span className="font-body text-sm text-text-primary flex-shrink-0 w-28">
-                    {skill.name}
-                  </span>
-                  <div className="skill-bar flex-1">
-                    <div
-                      className="skill-bar-fill"
-                      style={{ width: "100%" }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+              {category.shortLabel}
+            </button>
+          ))}
+        </div>
+
+        <div className="skills-lab-mobile-readout" aria-live="polite">
+          <p>{active.label}</p>
+          <div>
+            {active.skills.map((skill) => (
+              <span key={skill.name}>
+                {skill.name} <b>{skill.level}%</b>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>

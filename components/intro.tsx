@@ -1,155 +1,90 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { HiDownload } from "react-icons/hi";
+import { FaAws, FaDocker, FaJava, FaNodeJs, FaPython, FaReact } from "react-icons/fa";
+import { SiKubernetes } from "react-icons/si";
 import { useSectionInView } from "@/lib/hooks";
 import { useActiveSectionContext } from "@/context/active-section-context";
-import dynamic from "next/dynamic";
-import Marquee from "./marquee";
-import gsap from "gsap";
 
-const HeroScene = dynamic(() => import("./hero-scene"), {
-  ssr: false,
-  loading: () => null,
-});
+const technologies = [
+  { name: "React", Icon: FaReact, className: "tech-react" },
+  { name: "Docker", Icon: FaDocker, className: "tech-docker" },
+  { name: "AWS", Icon: FaAws, className: "tech-aws-top" },
+  { name: "Python", Icon: FaPython, className: "tech-python-top" },
+  { name: "Docker", Icon: FaDocker, className: "tech-docker-left" },
+  { name: "AWS", Icon: FaAws, className: "tech-aws-left" },
+  { name: "Python", Icon: FaPython, className: "tech-python-left" },
+  { name: "Java", Icon: FaJava, className: "tech-java" },
+  { name: "Kubernetes", Icon: SiKubernetes, className: "tech-kubernetes" },
+  { name: "Node.js", Icon: FaNodeJs, className: "tech-node" },
+] as const;
 
 export default function Intro() {
   const { ref } = useSectionInView("Home", 0.5);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 2.5 });
-
-      // Eyebrow
-      tl.from(".hero-eyebrow", {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: "power3.out",
-      });
-
-      // Words curtain reveal
-      tl.from(
-        ".hero-word",
-        {
-          y: "100%",
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power4.out",
-        },
-        "-=0.3"
-      );
-
-      // Sub line
-      tl.from(
-        ".hero-subline",
-        {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          ease: "power3.out",
-        },
-        "-=0.4"
-      );
-
-      // CTAs
-      tl.from(
-        ".hero-cta",
-        {
-          opacity: 0,
-          y: 20,
-          stagger: 0.1,
-          duration: 0.5,
-          ease: "power3.out",
-        },
-        "-=0.3"
-      );
-
-      // Scene fade in
-      tl.from(
-        ".hero-scene",
-        {
-          opacity: 0,
-          duration: 1,
-          ease: "power2.out",
-        },
-        "-=0.8"
-      );
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <section ref={ref} id="home" className="scroll-mt-16">
-      <div
-        ref={heroRef}
-        className="min-h-screen flex flex-col justify-center px-6 max-w-[1400px] mx-auto pt-16"
-      >
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-4">
-          {/* LEFT COLUMN — Text */}
-          <div className="lg:w-[60%] flex flex-col gap-6">
-            {/* Eyebrow */}
-            <div className="hero-eyebrow flex items-center gap-3">
-              <div className="pulsing-dot" />
-              <span className="text-mono text-accent">AVAILABLE FOR WORK</span>
-            </div>
+    <section ref={ref} id="home" className="space-hero scroll-mt-0">
+      <div className="cosmos-layer cosmos-nebula" aria-hidden="true" />
+      <div className="cosmos-layer cosmos-stars stars-near" aria-hidden="true" />
+      <div className="cosmos-layer cosmos-stars stars-far" aria-hidden="true" />
 
-            {/* Main headline */}
-            <div>
-              <div className="hero-word-mask">
-                <h1 className="hero-word heading-display heading-xl">
-                  SOFTWARE
-                </h1>
-              </div>
-              <div className="hero-word-mask">
-                <h1 className="hero-word heading-display heading-xl">
-                  ENGINEER
-                </h1>
-              </div>
-            </div>
-
-            {/* Subline */}
-            <p className="hero-subline text-body text-lg max-w-[500px]">
-              Building products people love — from Beirut to the world
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 mt-2">
-              <Link
-                href="#projects"
-                className="hero-cta magnetic-btn inline-flex items-center gap-2 px-8 py-4 bg-accent text-bg-primary font-display font-bold text-sm tracking-wide rounded-none hover:bg-[#b8ea4f] transition-colors"
-                onClick={() => {
-                  setActiveSection("Projects");
-                  setTimeOfLastClick(Date.now());
-                }}
-              >
-                View Work
-              </Link>
-
-              <a
-                href="/MohammadYassineCV.pdf"
-                download
-                className="hero-cta magnetic-btn inline-flex items-center gap-2 px-8 py-4 border border-[var(--border-medium)] text-text-primary font-display font-medium text-sm tracking-wide rounded-none hover:border-accent hover:text-accent transition-all"
-              >
-                Download CV
-                <HiDownload className="text-sm" />
-              </a>
-            </div>
+      <div className="technology-orbit" aria-label="Core technologies">
+        {technologies.map(({ name, Icon, className }, index) => (
+          <div key={`${name}-${index}`} className={`floating-tech ${className}`}>
+            <Icon role="img" aria-label={name} />
           </div>
+        ))}
+      </div>
 
-          {/* RIGHT COLUMN — Three.js Canvas (all screens) */}
-          <div className="hero-scene lg:w-[40%] w-full h-[350px] md:h-[400px] lg:h-[500px]">
-            <HeroScene />
+      <div className="hero-copy">
+        <div className="hero-title-wrap">
+          <h1 className="bubble-name" aria-label="Mohammad Yassine">
+            <span>MOHAMMAD</span>
+            <span>YASSINE</span>
+          </h1>
+          <div className="robot-aura" aria-hidden="true" />
+          <div className="robot-perch" aria-hidden="true" />
+          <div
+            className="robot-stage"
+            aria-label="Friendly robot sitting on the name"
+          >
+            <Image
+              src="/design/robot-hero-trimmed.png"
+              alt="Friendly copper robot waving while sitting on the name"
+              width={817}
+              height={1037}
+              priority
+              className="robot-figure"
+            />
           </div>
         </div>
-
-        {/* Marquee strip */}
-        <Marquee />
+        <p className="bubble-role">Full-Stack Software Engineer</p>
+        <div className="hero-actions">
+          <Link
+            href="#projects"
+            className="candy-button candy-button-green"
+            onClick={() => {
+              setActiveSection("Projects");
+              setTimeOfLastClick(Date.now());
+            }}
+          >
+            <span>View Work</span>
+          </Link>
+          <a
+            href="/MohammadYassineCV.pdf"
+            download="Mohammad-Yassine-CV.pdf"
+            aria-label="Download Mohammad Yassine's CV as a PDF"
+            className="candy-button candy-button-purple"
+          >
+            <span>Download CV</span>
+            <HiDownload aria-hidden="true" />
+          </a>
+        </div>
       </div>
+
     </section>
   );
 }

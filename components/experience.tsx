@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { FaAws, FaDocker, FaJava, FaPython, FaReact } from "react-icons/fa";
+import { SiDotnet, SiKubernetes } from "react-icons/si";
 import { experiencesData } from "@/lib/data";
 import { useSectionInView } from "@/lib/hooks";
 import gsap from "gsap";
@@ -8,73 +10,65 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const cardTones = ["green", "purple", "coral", "blue"] as const;
+
+const satellites = [
+  { Icon: FaReact, className: "experience-tech-react", label: "React" },
+  { Icon: FaPython, className: "experience-tech-python", label: "Python" },
+  { Icon: FaAws, className: "experience-tech-aws", label: "AWS" },
+  { Icon: FaJava, className: "experience-tech-java", label: "Java" },
+  { Icon: FaDocker, className: "experience-tech-docker", label: "Docker" },
+  {
+    Icon: SiKubernetes,
+    className: "experience-tech-kubernetes",
+    label: "Kubernetes",
+  },
+  { Icon: SiDotnet, className: "experience-tech-dotnet", label: ".NET" },
+] as const;
+
+function splitLocation(location: string) {
+  const [company, ...place] = location.split(" — ");
+  return {
+    company,
+    place: place.join(" — "),
+  };
+}
+
 export default function Experience() {
-  const { ref } = useSectionInView("Experience", 0.2);
+  const { ref } = useSectionInView("Experience", 0.06);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-      if (isMobile) {
-        gsap.set(".timeline-line-fill", { scaleY: 1 });
-        const entries = gsap.utils.toArray<HTMLElement>(".timeline-entry");
-        gsap.fromTo(
-          entries,
-          { y: 22, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.1,
-            duration: 0.55,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(".experience-level, .experience-scene-title", {
+          clearProps: "all",
+        });
         return;
       }
 
-      // Draw center line
       gsap.fromTo(
-        ".timeline-line-fill",
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 60%",
-            end: "bottom 40%",
-            scrub: 1,
-          },
-        }
+        ".experience-scene-title",
+        { y: 28, opacity: 0, scale: 0.94 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.9, ease: "back.out(1.5)" }
       );
 
-      // Animate entries
-      const entries = gsap.utils.toArray<HTMLElement>(".timeline-entry");
-      entries.forEach((entry, i) => {
-        const isLeft = i % 2 === 0;
+      gsap.utils.toArray<HTMLElement>(".experience-level").forEach((entry) => {
         gsap.fromTo(
           entry,
+          { y: 54, opacity: 0, scale: 0.94 },
           {
-            x: isLeft ? -60 : 60,
-            opacity: 0,
-          },
-          {
-            x: 0,
+            y: 0,
             opacity: 1,
-            duration: 0.8,
-            ease: "power3.out",
+            scale: 1,
+            duration: 0.7,
+            ease: "back.out(1.35)",
             scrollTrigger: {
               trigger: entry,
-              start: "top 80%",
-              toggleActions: "play none none none",
+              start: "top 86%",
+              once: true,
             },
           }
         );
@@ -93,85 +87,90 @@ export default function Experience() {
           (ref as React.MutableRefObject<HTMLElement | null>).current = node;
       }}
       id="experience"
-      className="scroll-mt-16 py-32"
+      className="experience-game"
+      aria-labelledby="experience-title"
     >
-      <div className="max-w-[1400px] mx-auto px-6">
-        {/* Section label */}
-        <div className="mb-20">
-          <span className="text-mono text-text-muted">04</span>
-          <h2 className="heading-display heading-lg mt-2">EXPERIENCE</h2>
-        </div>
+      <div className="experience-sky" aria-hidden="true" />
+      <div className="experience-vignette" aria-hidden="true" />
 
-        {/* Timeline */}
-        <div className="relative max-w-[900px] mx-auto">
-          {/* Center line */}
-          <div className="timeline-line hidden md:block">
-            <div className="timeline-line-fill" />
-          </div>
+      <div className="experience-satellites" aria-hidden="true">
+        {satellites.map(({ Icon, className, label }) => (
+          <span key={label} className={`experience-tech ${className}`}>
+            <Icon />
+          </span>
+        ))}
+      </div>
 
-          {/* Mobile line */}
-          <div className="timeline-line md:hidden" style={{ left: "20px" }}>
-            <div className="timeline-line-fill" />
-          </div>
+      <header className="experience-scene-title">
+        <h2 id="experience-title" data-text="EXPERIENCE" aria-label="Experience">
+          EXPERIENCE
+        </h2>
+      </header>
 
-          {/* Entries */}
-          <div className="space-y-16">
-            {experiencesData.map((item, i) => {
-              const isLeft = i % 2 === 0;
+      <div className="experience-route" aria-label="Professional experience timeline">
+        <svg
+          className="experience-route-line"
+          viewBox="0 0 1000 4300"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            className="experience-road-shadow"
+            d="M500 0 C900 150 900 420 500 520 C100 620 100 900 500 1000 C900 1100 900 1380 500 1480 C100 1580 100 1860 500 1960 C900 2060 900 2340 500 2440 C100 2540 100 2820 500 2920 C900 3020 900 3300 500 3400 C100 3500 100 3780 500 3880 C760 3945 820 4110 500 4300"
+          />
+          <path
+            className="experience-road"
+            d="M500 0 C900 150 900 420 500 520 C100 620 100 900 500 1000 C900 1100 900 1380 500 1480 C100 1580 100 1860 500 1960 C900 2060 900 2340 500 2440 C100 2540 100 2820 500 2920 C900 3020 900 3300 500 3400 C100 3500 100 3780 500 3880 C760 3945 820 4110 500 4300"
+          />
+          <path
+            className="experience-road-energy"
+            d="M500 0 C900 150 900 420 500 520 C100 620 100 900 500 1000 C900 1100 900 1380 500 1480 C100 1580 100 1860 500 1960 C900 2060 900 2340 500 2440 C100 2540 100 2820 500 2920 C900 3020 900 3300 500 3400 C100 3500 100 3780 500 3880 C760 3945 820 4110 500 4300"
+          />
+        </svg>
 
-              return (
-                <div key={i} className="timeline-entry relative">
-                  {/* Node */}
-                  <div
-                    className="timeline-node hidden md:block"
-                    style={{ top: "24px" }}
-                  />
-                  <div
-                    className="timeline-node md:hidden"
-                    style={{ top: "4px", left: "20px" }}
-                  />
+        {experiencesData.map((item, index) => {
+          const { company, place } = splitLocation(item.location);
+          const level = String(index + 1).padStart(2, "0");
 
-                  {/* Content card */}
-                  <div
-                    className={`
-                      md:w-[calc(50%-40px)] 
-                      ${isLeft ? "md:mr-auto md:pr-8" : "md:ml-auto md:pl-8"}
-                      pl-12 md:pl-0
-                    `}
-                  >
-                    <div className="p-6 rounded bg-bg-secondary border border-[var(--border)] hover:border-accent/20 transition-all">
-                      {/* Date */}
-                      {item.date ? (
-                        <span className="text-mono text-accent text-[10px]">
-                          {item.date}
-                        </span>
-                      ) : null}
+          return (
+            <article
+              key={`${item.title}-${item.location}`}
+              className={`experience-level experience-level-${
+                index % 2 === 0 ? "left" : "right"
+              } experience-card-${cardTones[index % cardTones.length]}`}
+            >
+              <span className="experience-checkpoint" aria-hidden="true">
+                <span>⚡</span>
+              </span>
 
-                      {/* Title */}
-                      <h3
-                        className={`font-display font-bold text-lg text-text-primary ${
-                          item.date ? "mt-2" : "mt-0"
-                        }`}
-                      >
-                        {item.title}
-                      </h3>
+              <div className="experience-level-shell">
+                <div className="experience-level-banner">
+                  <span>LEVEL CLEAR!</span>
+                </div>
 
-                      {/* Location */}
-                      <p className="text-mono text-text-muted text-[10px] mt-1">
-                        {item.location}
-                      </p>
+                <div className="experience-card-copy">
+                  <div className="experience-card-meta">
+                    <time>{item.date || "Completed"}</time>
+                    <span className="experience-company">
+                      <strong>{company}</strong>
+                      {place ? <small>{place}</small> : null}
+                    </span>
+                  </div>
 
-                      {/* Description */}
-                      <p className="text-body text-sm mt-3">
-                        {item.description}
-                      </p>
-                    </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+
+                  <div className="experience-score" aria-label={`Career level ${level}`}>
+                    <span className="experience-level-number">LVL {level}</span>
+                    <span className="experience-stars" aria-hidden="true">
+                      <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i>
+                    </span>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

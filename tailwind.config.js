@@ -18,9 +18,9 @@ module.exports = {
         border: "var(--border)",
       },
       fontFamily: {
-        display: ['"DM Sans"', "sans-serif"],
-        body: ['"Inter"', "sans-serif"],
-        mono: ['"JetBrains Mono"', "monospace"],
+        display: ["var(--font-display)"],
+        body: ["var(--font-body)"],
+        mono: ["var(--font-mono)"],
       },
       keyframes: {
         marquee: {

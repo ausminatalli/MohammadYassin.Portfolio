@@ -1,30 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, DM_Sans, JetBrains_Mono } from "next/font/google";
 import ClientLayout from "@/components/client-layout";
 
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(
   /\/$/,
   ""
 );
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["300", "400"],
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-dm-sans",
-  weight: ["500", "700"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  weight: ["400"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -62,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Mohammad Yassine Portfolio",
     images: [
       {
-        url: "/MOHAMMADYASSINE.png",
+        url: "/Mohammadyassine.jpeg",
         width: 1200,
         height: 630,
         alt: "Mohammad Yassine Portfolio Preview",
@@ -74,7 +55,7 @@ export const metadata: Metadata = {
     title: "Mohammad Yassine — Full-Stack Software Engineer",
     description:
       "Portfolio of Mohammad Yassine, building production products with React, Next.js, React Native, Laravel, and Node.js.",
-    images: ["/MOHAMMADYASSINE.png"],
+    images: ["/Mohammadyassine.jpeg"],
   },
   robots: {
     index: true,
@@ -95,11 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${inter.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
-    >
+    <html lang="en" suppressHydrationWarning>
       <body>
         <ClientLayout>{children}</ClientLayout>
       </body>

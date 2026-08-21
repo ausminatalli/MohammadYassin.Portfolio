@@ -1,239 +1,82 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useSectionInView } from "@/lib/hooks";
-import { sendEmail } from "@/actions/sendEmail";
-import SubmitBtn from "./submit-btn";
+import React, { useRef, useState } from "react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { HiDownload, HiLocationMarker, HiMail, HiPhone } from "react-icons/hi";
 import toast from "react-hot-toast";
-import { BsLinkedin, BsGithub } from "react-icons/bs";
-import { HiDownload } from "react-icons/hi";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { sendEmail } from "@/actions/sendEmail";
+import { useSectionInView } from "@/lib/hooks";
+import SubmitBtn from "./submit-btn";
 
 export default function Contact() {
   const { ref } = useSectionInView("Contact", 0.3);
-  const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "sending" | "success" | "error"
   >("idle");
   const [submitMessage, setSubmitMessage] = useState("");
 
-  useEffect(() => {
-    if (submitStatus === "idle" || submitStatus === "sending") return;
-
-    const timer = window.setTimeout(() => {
-      setSubmitStatus("idle");
-      setSubmitMessage("");
-    }, 4500);
-
-    return () => window.clearTimeout(timer);
-  }, [submitStatus]);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-      if (isMobile) {
-        gsap.fromTo(
-          ".contact-word",
-          { y: 26, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.08,
-            duration: 0.55,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-
-        gsap.fromTo(
-          ".terminal-block",
-          { y: 20, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.55,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: ".terminal-block",
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-        return;
-      }
-
-      // Heading reveal
-      gsap.fromTo(
-        ".contact-word",
-        { y: "100%", opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      // Terminal block
-      gsap.fromTo(
-        ".terminal-line",
-        { opacity: 0, x: -20 },
-        {
-          opacity: 1,
-          x: 0,
-          stagger: 0.1,
-          delay: 0.3,
-          duration: 0.5,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".terminal-block",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      ref={(node) => {
-        (sectionRef as React.MutableRefObject<HTMLElement | null>).current = node;
-        if (typeof ref === "function") ref(node);
-        else if (ref)
-          (ref as React.MutableRefObject<HTMLElement | null>).current = node;
-      }}
-      id="contact"
-      className="scroll-mt-16 relative min-h-screen flex items-center"
-    >
-      {/* Gradient mesh background */}
-      <div className="gradient-mesh" />
+    <section ref={ref} id="contact" className="contact-workshop">
+      <div className="contact-workshop-stars" aria-hidden="true" />
+      <span className="contact-gear contact-gear-left" aria-hidden="true">⚙</span>
+      <span className="contact-gear contact-gear-right" aria-hidden="true">⚙</span>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 py-32 w-full">
-        {/* Section label */}
-        <div className="mb-12">
-          <span className="text-mono text-text-muted">05</span>
-        </div>
+      <div className="contact-workshop-shell">
+        <header className="contact-workshop-heading">
+          <span className="contact-workshop-kicker">Mission control is online</span>
+          <h2>Let&apos;s Build Something</h2>
+          <p>Have a product idea, a tricky build, or a team that needs an extra pair of hands? Send the signal.</p>
+        </header>
 
-        {/* Main heading */}
-        <div className="mb-8">
-          <div className="hero-word-mask overflow-hidden">
-            <h2 className="contact-word heading-display heading-lg">
-              LET&apos;S BUILD
-            </h2>
-          </div>
-          <div className="hero-word-mask overflow-hidden">
-            <h2 className="contact-word heading-display heading-lg text-accent">
-              SOMETHING
-            </h2>
-          </div>
-        </div>
-
-        <p className="text-body text-lg max-w-[600px] mb-16">
-          Open to freelance, full-time, and consulting opportunities.
-        </p>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Left: Terminal + Social */}
-          <div>
-            {/* Terminal block */}
-            <div className="terminal-block bg-bg-secondary border border-[var(--border)] rounded p-6 mb-12">
-              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
-                <span className="text-text-muted">&gt;</span>
-                <span className="key shrink-0">location:</span>
-                <span className="value min-w-0">Beirut, Lebanon | Open to Remote</span>
-              </div>
-              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
-                <span className="text-text-muted">&gt;</span>
-                <span className="key shrink-0">email:</span>
-                <span className="value min-w-0">mohammadhabibyassine@gmail.com</span>
-              </div>
-              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
-                <span className="text-text-muted">&gt;</span>
-                <span className="key shrink-0">phone:</span>
-                <span className="value min-w-0">+961 81653405</span>
-              </div>
-              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
-                <span className="text-text-muted">&gt;</span>
-                <span className="key shrink-0">status:</span>
-                <span className="value min-w-0">available_for_work</span>
-              </div>
-              <div className="terminal-line flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-1 min-w-0">
-                <span className="text-text-muted">&gt;</span>
-                <span className="key shrink-0">response:</span>
-                <span className="value min-w-0">
-                  within_24h{" "}
-                  <span className="inline-block w-2 h-4 bg-accent animate-blink-cursor ml-1" />
-                </span>
+        <div className="contact-workshop-grid">
+          <div className="contact-workshop-details">
+            <div className="contact-signal-panel">
+              <a href="mailto:mohammadhabibyassine@gmail.com" className="contact-signal-row">
+                <span className="contact-signal-icon"><HiMail aria-hidden="true" /></span>
+                <span><small>Email channel</small><strong>mohammadhabibyassine@gmail.com</strong></span>
+              </a>
+              <a href="tel:+96181653405" className="contact-signal-row">
+                <span className="contact-signal-icon"><HiPhone aria-hidden="true" /></span>
+                <span><small>Direct line</small><strong>+961 81 653 405</strong></span>
+              </a>
+              <div className="contact-signal-row">
+                <span className="contact-signal-icon"><HiLocationMarker aria-hidden="true" /></span>
+                <span><small>Base station</small><strong>Beirut, Lebanon · Remote worldwide</strong></span>
               </div>
             </div>
 
-            {/* Social links */}
-            <div className="flex gap-8 mb-12">
-              <a
-                href="https://github.com/mohammadhabibyassine"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-link"
-              >
-                <BsGithub className="text-lg" />
-                <span className="text-sm font-body">GitHub</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/mohammad-habib-yassine-6403aa242"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-link"
-              >
-                <BsLinkedin className="text-lg" />
-                <span className="text-sm font-body">LinkedIn</span>
-              </a>
+            <div className="contact-availability" role="status">
+              <span className="contact-availability-light" aria-hidden="true" />
+              <div><small>Current status</small><strong>Available for new missions</strong></div>
+              <span className="contact-response-time">Replies within 24h</span>
             </div>
 
-            {/* CV Download CTA */}
-            <a
-              href="/MohammadYassineCV.pdf"
-              download
-              className="cta-wipe inline-flex items-center gap-3 px-10 py-5 font-display font-bold text-sm tracking-wide uppercase"
-            >
-              <span className="flex items-center gap-3">
-                Download CV
-                <HiDownload />
-              </span>
-            </a>
+            <div className="contact-workshop-actions" aria-label="Professional links">
+              <a href="https://github.com/mohammadhabibyassine" target="_blank" rel="noopener noreferrer">
+                <FaGithub aria-hidden="true" /><span>GitHub</span>
+              </a>
+              <a href="https://www.linkedin.com/in/mohammad-habib-yassine-6403aa242" target="_blank" rel="noopener noreferrer">
+                <FaLinkedinIn aria-hidden="true" /><span>LinkedIn</span>
+              </a>
+              <a href="/MohammadYassineCV.pdf" download>
+                <HiDownload aria-hidden="true" /><span>Download CV</span>
+              </a>
+            </div>
           </div>
 
-          {/* Right: Contact Form */}
-          <div>
-            <h3 className="font-display font-bold text-xl text-text-primary mb-6">
-              Send a message
-            </h3>
+          <div className="contact-console">
+            <div className="contact-console-bar" aria-hidden="true">
+              <span /><span /><span />
+              <strong>NEW_MESSAGE.exe</strong>
+            </div>
+
             <form
               ref={formRef}
-              className="flex flex-col gap-4"
+              className="contact-workshop-form"
               action={async (formData) => {
                 setSubmitStatus("sending");
-                setSubmitMessage("Sending your message...");
+                setSubmitMessage("Sending...");
 
                 const { data, error } = await sendEmail(formData);
                 if (error) {
@@ -256,35 +99,37 @@ export default function Contact() {
 
                 formRef.current?.reset();
                 setSubmitStatus("success");
-                setSubmitMessage("Message sent successfully. I will reply soon.");
+                setSubmitMessage("Message sent — I will reply soon.");
                 toast.success("Email sent successfully!");
               }}
             >
+              <label htmlFor="contact-email">Your email</label>
               <input
-                className="contact-input"
+                id="contact-email"
+                className="contact-workshop-input"
                 name="senderEmail"
                 type="email"
+                autoComplete="email"
                 required
                 maxLength={500}
-                placeholder="Your email"
+                placeholder="you@example.com"
               />
+
+              <label htmlFor="contact-message">Tell me about the mission</label>
               <textarea
-                className="contact-input h-48 resize-none"
+                id="contact-message"
+                className="contact-workshop-input contact-workshop-message"
                 name="message"
-                placeholder="Your message"
+                placeholder="What are we building?"
                 required
                 maxLength={5000}
               />
+
               <SubmitBtn />
+
               <p
                 aria-live="polite"
-                className={`text-sm ${
-                  submitStatus === "error"
-                    ? "text-[#ff7a7a]"
-                    : submitStatus === "success"
-                    ? "text-accent"
-                    : "text-text-muted"
-                }`}
+                className={`contact-workshop-status contact-workshop-status-${submitStatus}`}
               >
                 {submitMessage}
               </p>

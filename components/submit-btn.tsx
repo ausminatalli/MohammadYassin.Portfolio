@@ -1,5 +1,4 @@
 import React from "react";
-import { FaPaperPlane } from "react-icons/fa";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 export default function SubmitBtn() {
@@ -8,20 +7,11 @@ export default function SubmitBtn() {
   return (
     <button
       type="submit"
-      className="group flex items-center justify-center gap-2 h-[3rem] w-[8rem] bg-accent text-bg-primary font-display font-bold text-sm tracking-wide rounded-none outline-none transition-all hover:bg-[#b8ea4f] active:scale-[0.98] disabled:opacity-50"
+      className="contact-workshop-submit"
       disabled={pending}
+      aria-label={pending ? "Sending message" : "Submit contact form"}
     >
-      {pending ? (
-        <>
-          <div className="h-4 w-4 animate-spin rounded-full border-2 border-bg-primary/40 border-t-bg-primary" />
-          Sending...
-        </>
-      ) : (
-        <>
-          Submit{" "}
-          <FaPaperPlane className="text-xs transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
-        </>
-      )}
+      <span>{pending ? "Sending..." : "Submit"}</span>
     </button>
   );
 }

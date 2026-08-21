@@ -36,7 +36,7 @@ export const experiencesData = [
     title: "Software Engineer",
     location: "Broadstark — Remote",
     description:
-      "Led end-to-end architecture and delivery of 6+ full-stack web and mobile applications for startup clients, including Sha8elni, MeaCash, Yabalesh, Mourad Valley, and Mido Delivery. Owned database schema, API contracts, deployment topology, and service boundaries. Built and deployed RESTful and GraphQL APIs on Hetzner, DigitalOcean, and AWS (S3, CloudFront) with Docker-based environments and CI/CD via GitHub Actions. Engineered AI-powered automation workflows with n8n, integrating LLM APIs (OpenAI, Anthropic) and document processing pipelines for automated data extraction and cloud migrations.",
+      "Led end-to-end architecture and delivery of 6+ full-stack web and mobile applications for startup clients, including Thiqa, MeaCash, Yabalesh, Mourad Valley, and Mido Delivery. Owned database schema, API contracts, deployment topology, and service boundaries. Built and deployed RESTful and GraphQL APIs on Hetzner, DigitalOcean, and AWS (S3, CloudFront) with Docker-based environments and CI/CD via GitHub Actions. Engineered AI-powered automation workflows with n8n, integrating LLM APIs (OpenAI, Anthropic) and document processing pipelines for automated data extraction and cloud migrations.",
     icon: React.createElement(FaReact),
     date: "Nov 2025 - Present",
   },
@@ -106,15 +106,24 @@ export const experiencesData = [
   },
 ] as const;
 
-export const projectsData = [
+export type ProjectData = {
+  title: string;
+  description: string;
+  tags: readonly string[];
+  imageUrl: string;
+  githubrepo: string;
+  demo: string;
+};
+
+export const projectsData: readonly ProjectData[] = [
   {
-    title: "Sha8elni",
+    title: "Thiqa",
     description:
       "Built a two-sided Lebanese trades marketplace connecting clients with skilled tradespeople across multiple specializations. Clients post work requests, tradespeople submit proposals, and the platform handles profile, listing, and application management. Implemented real-time job alerts via WebSockets and integrated Whish Money payment flows for premium subscription upgrades. Delivered cross-platform iOS and Android apps with a Laravel REST API backend.",
     tags: ["Live", "Laravel", "React Native", "WebSockets"],
     imageUrl: "/sha8elni.png",
     githubrepo: "",
-    demo: "https://sha8elni.com/en/",
+    demo: "https://thiqaapp.com/en/",
   },
   {
     title: "MeaCash",
@@ -123,16 +132,16 @@ export const projectsData = [
     tags: ["Live", "Vue.js", "Laravel", "PostgreSQL"],
     imageUrl: "/meacash.png",
     githubrepo: "",
-    demo: "",
+    demo: "https://meacash.io/en",
   },
   {
-    title: "Yabalesh",
+    title: "Ajams",
     description:
       "Designed and built a bilingual Arabic/English digital products marketplace for subscriptions, gift cards, and game top-ups across 10+ categories. Implemented Supabase-backed catalog management with image storage, category filtering, and WhatsApp-integrated order flows with Whish Money payment processing.",
     tags: ["Live", "Next.js", "Supabase", "TypeScript"],
     imageUrl: "/yabalesh.png",
     githubrepo: "",
-    demo: "",
+    demo: "https://ajams-international-ashen.vercel.app/en",
   },
   {
     title: "Mourad Valley",
@@ -152,7 +161,7 @@ export const projectsData = [
     githubrepo: "",
     demo: "https://midodelivery.com/",
   },
-] as const;
+];
 
 export const skillsData = [
   { name: "JavaScript (ES6+)" },
