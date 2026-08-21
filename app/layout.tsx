@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Mohammad Yassine Portfolio",
     images: [
       {
-        url: "/Mohammadyassine.jpeg",
+        url: "/mohammadyassine.jpeg",
         width: 1200,
         height: 630,
         alt: "Mohammad Yassine Portfolio Preview",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: "Mohammad Yassine — Full-Stack Software Engineer",
     description:
       "Portfolio of Mohammad Yassine, building production products with React, Next.js, React Native, Laravel, and Node.js.",
-    images: ["/Mohammadyassine.jpeg"],
+    images: ["/mohammadyassine.jpeg"],
   },
   robots: {
     index: true,

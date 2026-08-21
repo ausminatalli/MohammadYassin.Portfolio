@@ -174,7 +174,7 @@ export default function About() {
             <div className="comic-tv-bezel">
               <div className="comic-tv-screen">
                 <Image
-                  src="/Mohammadyassine.jpeg"
+                  src="/mohammadyassine.jpeg"
                   alt="Mohammad Yassine in a suit"
                   width={1600}
                   height={1574}
