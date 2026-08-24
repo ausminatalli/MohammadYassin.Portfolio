@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Header from "@/components/header";
+import Preloader from "@/components/preloader";
 import SmoothScroll from "@/components/smooth-scroll";
 import ActiveSectionContextProvider from "@/context/active-section-context";
-import ThemeContextProvider from "@/context/theme-context";
 import { Toaster } from "react-hot-toast";
 
 export default function ClientLayout({
@@ -12,24 +12,33 @@ export default function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [showIntro, setShowIntro] = useState(true);
+  const siteRef = useRef<HTMLDivElement>(null);
+  const completeIntro = useCallback(() => setShowIntro(false), []);
+
+  useEffect(() => {
+    if (siteRef.current) siteRef.current.inert = showIntro;
+  }, [showIntro]);
+
   return (
-    <ThemeContextProvider>
-      <ActiveSectionContextProvider>
+    <ActiveSectionContextProvider>
+      {showIntro && <Preloader onComplete={completeIntro} />}
+      <div ref={siteRef} aria-hidden={showIntro || undefined}>
         <SmoothScroll>
           <Header />
           {children}
         </SmoothScroll>
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            style: {
-              background: "var(--bg-secondary)",
-              color: "var(--text-primary)",
-              border: "1px solid var(--border)",
-            },
-          }}
-        />
-      </ActiveSectionContextProvider>
-    </ThemeContextProvider>
+      </div>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: "var(--bg-secondary)",
+            color: "var(--text-primary)",
+            border: "1px solid var(--border)",
+          },
+        }}
+      />
+    </ActiveSectionContextProvider>
   );
 }

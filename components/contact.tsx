@@ -21,13 +21,30 @@ export default function Contact() {
       <div className="contact-workshop-stars" aria-hidden="true" />
       <span className="contact-gear contact-gear-left" aria-hidden="true">⚙</span>
       <span className="contact-gear contact-gear-right" aria-hidden="true">⚙</span>
+      <span className="contact-comet contact-comet-one" aria-hidden="true" />
+      <span className="contact-comet contact-comet-two" aria-hidden="true" />
 
       <div className="contact-workshop-shell">
         <header className="contact-workshop-heading">
+          <div className="contact-radar" aria-hidden="true">
+            <span />
+            <span />
+            <i />
+          </div>
           <span className="contact-workshop-kicker">Mission control is online</span>
           <h2>Let&apos;s Build Something</h2>
           <p>Have a product idea, a tricky build, or a team that needs an extra pair of hands? Send the signal.</p>
         </header>
+
+        <div className="contact-transmission" role="status" aria-label="Secure contact channel is online">
+          <span className="contact-transmission-channel">
+            <i aria-hidden="true" /> Secure uplink
+          </span>
+          <span className="contact-waveform" aria-hidden="true">
+            <i /><i /><i /><i /><i /><i /><i /><i /><i />
+          </span>
+          <span className="contact-transmission-code">BEIRUT // UTC+3 // CHANNEL 24</span>
+        </div>
 
         <div className="contact-workshop-grid">
           <div className="contact-workshop-details">
@@ -66,6 +83,11 @@ export default function Contact() {
           </div>
 
           <div className="contact-console">
+            <div className="contact-console-antenna" aria-hidden="true">
+              <i />
+              <span />
+            </div>
+            <div className="contact-console-scan" aria-hidden="true" />
             <div className="contact-console-bar" aria-hidden="true">
               <span /><span /><span />
               <strong>NEW_MESSAGE.exe</strong>
@@ -103,27 +125,31 @@ export default function Contact() {
                 toast.success("Email sent successfully!");
               }}
             >
-              <label htmlFor="contact-email">Your email</label>
-              <input
-                id="contact-email"
-                className="contact-workshop-input"
-                name="senderEmail"
-                type="email"
-                autoComplete="email"
-                required
-                maxLength={500}
-                placeholder="you@example.com"
-              />
+              <div className="contact-field">
+                <label htmlFor="contact-email"><span>01</span> Your email</label>
+                <input
+                  id="contact-email"
+                  className="contact-workshop-input"
+                  name="senderEmail"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  maxLength={500}
+                  placeholder="you@example.com"
+                />
+              </div>
 
-              <label htmlFor="contact-message">Tell me about the mission</label>
-              <textarea
-                id="contact-message"
-                className="contact-workshop-input contact-workshop-message"
-                name="message"
-                placeholder="What are we building?"
-                required
-                maxLength={5000}
-              />
+              <div className="contact-field contact-field-message">
+                <label htmlFor="contact-message"><span>02</span> Tell me about the mission</label>
+                <textarea
+                  id="contact-message"
+                  className="contact-workshop-input contact-workshop-message"
+                  name="message"
+                  placeholder="What are we building?"
+                  required
+                  maxLength={5000}
+                />
+              </div>
 
               <SubmitBtn />
 

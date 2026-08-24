@@ -3,7 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import {
+  HiChevronLeft,
+  HiChevronRight,
+  HiChip,
+  HiExternalLink,
+} from "react-icons/hi";
 import type { IconType } from "react-icons";
 import {
   SiAmazonaws,
@@ -178,20 +183,40 @@ export default function Projects() {
           <p className="sr-only">{activeProject.description}</p>
 
           <div className="project-console">
-            <span className="console-cloud console-cloud-left" aria-hidden="true" />
-            <span className="console-cloud console-cloud-right" aria-hidden="true" />
+            <div className="console-topline" aria-hidden="true">
+              <span className="console-leds"><i /><i /><i /></span>
+              <span>Project Console</span>
+              <span className="console-live"><i /> Live</span>
+            </div>
             <div className="project-actions">
               {activeProject.demo ? (
-                <a href={activeProject.demo} target="_blank" rel="noreferrer" className="mini-candy mini-green">
-                  Explore Project
+                <a
+                  href={activeProject.demo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mini-candy mini-green"
+                  aria-label={`Launch ${activeProject.title} project`}
+                >
+                  <span className="mini-candy-icon"><HiExternalLink aria-hidden="true" /></span>
+                  <span>Launch Project</span>
                 </a>
               ) : (
-                <Link href="#contact" className="mini-candy mini-green">
-                  Explore Project
+                <Link
+                  href="#contact"
+                  className="mini-candy mini-green"
+                  aria-label={`Discuss ${activeProject.title} project`}
+                >
+                  <span className="mini-candy-icon"><HiExternalLink aria-hidden="true" /></span>
+                  <span>Discuss Project</span>
                 </Link>
               )}
-              <Link href="#skills" className="mini-candy mini-purple">
-                View Tech Stack
+              <Link
+                href="#skills"
+                className="mini-candy mini-purple"
+                aria-label={`View ${activeProject.title} technology stack`}
+              >
+                <span className="mini-candy-icon"><HiChip aria-hidden="true" /></span>
+                <span>Tech Stack</span>
               </Link>
             </div>
           </div>

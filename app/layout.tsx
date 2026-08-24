@@ -1,4 +1,9 @@
 import "./globals.css";
+import "@fontsource/fredoka/600.css";
+import "@fontsource/fredoka/700.css";
+import "@fontsource/lilita-one/400.css";
+import "@fontsource/nunito-sans/700.css";
+import "@fontsource/nunito-sans/800.css";
 import type { Metadata } from "next";
 import ClientLayout from "@/components/client-layout";
 
@@ -9,6 +14,7 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").re
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  colorScheme: "only light",
   title: {
     default: "Mohammad Yassine — Full-Stack Software Engineer",
     template: "%s | Mohammad Yassine",
@@ -61,10 +67,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#060608" },
-    { media: "(prefers-color-scheme: light)", color: "#f8f8f6" },
-  ],
+  themeColor: "#05081c",
+  other: {
+    "supported-color-schemes": "light",
+  },
   icons: {
     icon: "/favicon.ico",
   },

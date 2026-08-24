@@ -212,7 +212,10 @@ export default function About() {
                 key={stat.label}
               >
                 {stat.sound ? (
-                  <span className="comic-sound" aria-hidden="true">
+                  <span
+                    className={`comic-sound comic-sound-${stat.sound.toLowerCase()}`}
+                    aria-hidden="true"
+                  >
                     {stat.sound}
                   </span>
                 ) : null}
