@@ -2372,7 +2372,7 @@ body {
   content: "";
   position: absolute;
   inset: -35px;
-  opacity: .28;
+  opacity: .18;
   background: url("/media/yassine-pixar-intro-poster.jpg") center / cover no-repeat;
   filter: blur(26px) saturate(.75);
   transform: scale(1.08);
@@ -2386,8 +2386,18 @@ body {
   display: block;
   object-fit: cover;
   object-position: center;
-  background: #dce5e9;
+  background: #dce5e9 url("/media/yassine-pixar-intro-poster.jpg") center / cover no-repeat;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
   will-change: transform, filter, opacity;
+}
+
+.cinema-intro-video::-webkit-media-controls,
+.cinema-intro-video::-webkit-media-controls-panel,
+.cinema-intro-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
 }
 
 .cinema-intro-vignette {
@@ -2401,103 +2411,65 @@ body {
   mix-blend-mode: multiply;
 }
 
-.cinema-intro-brand {
-  position: absolute;
-  z-index: 5;
-  top: max(24px, env(safe-area-inset-top));
-  left: 28px;
-  display: grid;
-  gap: 3px;
-  font-family: var(--font-bubble);
-  text-transform: uppercase;
-  color: #22364a;
-  text-shadow: 0 1px 0 rgba(255,255,255,.8);
-}
-
-.cinema-intro-brand span { font-size: 14px; font-weight: 700; letter-spacing: .08em; }
-.cinema-intro-brand small { font-family: var(--font-mono); font-size: 8px; font-weight: 700; letter-spacing: .22em; opacity: .65; }
-
-.cinema-intro-controls {
-  position: absolute;
-  z-index: 7;
-  top: max(20px, env(safe-area-inset-top));
-  right: 24px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.cinema-intro-control,
-.cinema-intro-play {
-  appearance: none;
-  min-height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 9px 13px;
-  border: 1px solid rgba(255,255,255,.72);
-  border-radius: 999px;
-  color: #f7fbff;
-  background: rgba(16, 30, 51, .78);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), 0 7px 20px rgba(16, 30, 49, .24);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  font-family: var(--font-hero-ui);
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1;
-  cursor: pointer;
-  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-}
-
-.cinema-intro-control svg { width: 18px; height: 18px; flex: 0 0 auto; }
-.cinema-intro-control:hover { transform: translateY(-2px); background: rgba(24, 45, 74, .9); box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 10px 25px rgba(16, 30, 49, .3); }
-.cinema-intro-control:active { transform: translateY(1px) scale(.98); }
-.cinema-intro-control:focus-visible,
-.cinema-intro-play:focus-visible { outline: 3px solid #6cecff; outline-offset: 3px; }
-
-.cinema-intro-skip { padding-left: 16px; }
-
-.cinema-intro-play {
+.cinema-intro-entry {
   position: absolute;
   z-index: 8;
-  top: 50%;
-  left: 50%;
-  min-height: 54px;
-  padding-inline: 22px;
-  transform: translate(-50%, -50%);
-  border-color: rgba(108,236,255,.84);
-  background: rgba(21, 39, 67, .9);
-  font-size: 14px;
-  box-shadow: 0 0 0 7px rgba(108,236,255,.12), 0 12px 32px rgba(8,18,40,.35);
-  animation: cinema-play-pulse 1.8s ease-in-out infinite;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(19, 31, 44, .14);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  animation: cinema-entry-arrive .45s ease-out both;
 }
 
-.cinema-intro-play svg { width: 21px; height: 21px; }
-
-.cinema-intro-progress {
-  position: absolute;
-  z-index: 7;
-  left: 24px;
-  right: 24px;
-  bottom: max(20px, env(safe-area-inset-bottom));
-  height: 3px;
+.cinema-intro-enter {
+  appearance: none;
+  position: relative;
+  min-width: 200px;
+  min-height: 56px;
   overflow: hidden;
+  padding: 14px 26px;
+  border: 1px solid rgba(255,255,255,.82);
   border-radius: 999px;
-  background: rgba(29, 46, 63, .18);
-  box-shadow: 0 1px 0 rgba(255,255,255,.55);
+  color: #f9fcff;
+  background: rgba(22, 37, 56, .86);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 14px 40px rgba(19, 33, 48, .24);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+  font-family: var(--font-hero-ui);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
 }
 
-.cinema-intro-progress span {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #51dcff, #8c79ff 55%, #ffcb5c);
-  box-shadow: 0 0 10px rgba(76,220,255,.8);
-  transform-origin: left;
-  transition: transform .12s linear;
+.cinema-intro-enter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.34) 48%, transparent 72%);
+  transform: translateX(-120%);
+  animation: cinema-enter-glint 2.6s .7s ease-in-out infinite;
+}
+
+.cinema-intro-enter:hover {
+  transform: translateY(-2px) scale(1.015);
+  background: rgba(30, 50, 74, .94);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.34), 0 18px 48px rgba(19,33,48,.3);
+}
+
+.cinema-intro-enter:active { transform: translateY(1px) scale(.985); }
+.cinema-intro-enter:focus-visible { outline: 3px solid #6cecff; outline-offset: 4px; }
+
+.cinema-intro.is-awaiting-entry .cinema-intro-video {
+  filter: saturate(.86) brightness(.9);
 }
 
 .cinema-intro-flash {
@@ -2520,9 +2492,7 @@ body {
 
 .cinema-intro.is-exiting .cinema-intro-stars { animation: cinema-stars-arrive .85s ease-out forwards; }
 .cinema-intro.is-exiting .cinema-intro-flash { animation: cinema-flash-release .8s ease-out forwards; }
-.cinema-intro.is-exiting .cinema-intro-brand,
-.cinema-intro.is-exiting .cinema-intro-controls,
-.cinema-intro.is-exiting .cinema-intro-progress { animation: cinema-ui-leave .28s ease-in forwards; }
+.cinema-intro.is-exiting .cinema-intro-entry { animation: cinema-ui-leave .22s ease-in forwards; }
 
 html.intro-active:not(.intro-revealing) .game-brand,
 html.intro-active:not(.intro-revealing) .game-nav,
@@ -2550,49 +2520,36 @@ html.intro-revealing .game-nav { animation: cinema-nav-arrive .75s .2s cubic-bez
 @keyframes cinema-stars-arrive { from { opacity: 0; transform: scale(.96); } to { opacity: .85; transform: scale(1.04); } }
 @keyframes cinema-flash-release { 0% { opacity: 0; transform: scale(.5); } 36% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.7); } }
 @keyframes cinema-ui-leave { to { opacity: 0; } }
+@keyframes cinema-entry-arrive { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cinema-enter-glint { 0%, 58% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
 @keyframes cinema-site-arrive { from { opacity: 0; transform: translateY(24px) scale(.97); filter: blur(8px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
 @keyframes cinema-brand-arrive { from { opacity: 0; transform: translateY(-15px) rotate(-8deg) scale(.9); } to { opacity: 1; transform: rotate(-5deg) scale(1); } }
 @keyframes cinema-nav-arrive { from { opacity: 0; transform: translate3d(-50%, 22px, 0) scale(.96); } to { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); } }
-@keyframes cinema-play-pulse { 50% { box-shadow: 0 0 0 11px rgba(108,236,255,.06), 0 14px 36px rgba(8,18,40,.4); } }
 
 @media (max-aspect-ratio: 4 / 5) {
+  .cinema-intro-frame::before {
+    background-image: url("/media/yassine-pixar-intro-portrait-poster.jpg");
+  }
+
   .cinema-intro-video {
     width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-    box-shadow: 0 18px 55px rgba(29, 49, 64, .18);
+    height: 100%;
+    object-fit: cover;
+    background-image: url("/media/yassine-pixar-intro-portrait-poster.jpg");
   }
 
   .cinema-intro-vignette {
     background:
-      linear-gradient(180deg, rgba(23,39,54,.1), transparent 27% 73%, rgba(18,31,47,.12)),
-      radial-gradient(ellipse at center, transparent 60%, rgba(17,31,46,.18));
+      linear-gradient(180deg, rgba(23,39,54,.08), transparent 27% 73%, rgba(18,31,47,.1)),
+      radial-gradient(ellipse at center, transparent 64%, rgba(17,31,46,.13));
   }
 }
 
 @media (max-width: 600px) {
   .cinema-intro { min-height: 100dvh; }
-  .cinema-intro-brand { top: max(18px, env(safe-area-inset-top)); left: 50%; width: max-content; text-align: center; transform: translateX(-50%); }
-  .cinema-intro-brand span { font-size: 12px; }
-  .cinema-intro-brand small { font-size: 7px; }
-  .cinema-intro-controls {
-    top: auto;
-    right: 12px;
-    bottom: calc(31px + env(safe-area-inset-bottom));
-    left: 12px;
-    justify-content: space-between;
-  }
-  .cinema-intro-control { min-height: 44px; padding: 9px 12px; font-size: 11px; }
-  .cinema-intro-progress { left: 13px; right: 13px; bottom: calc(16px + env(safe-area-inset-bottom)); height: 2px; }
+  .cinema-intro-entry { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+  .cinema-intro-enter { min-width: 188px; min-height: 54px; font-size: 12px; }
   html.intro-revealing .game-brand { animation: none; }
-}
-
-@media (max-width: 370px) {
-  .cinema-intro-control span { display: none; }
-  .cinema-intro-control { width: 45px; padding-inline: 0; }
-  .cinema-intro-skip { width: auto; padding-inline: 13px; }
-  .cinema-intro-skip span { display: inline; }
 }
 
 @media (prefers-reduced-motion: reduce) {

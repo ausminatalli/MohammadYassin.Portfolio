@@ -1,24 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  HiChevronRight,
-  HiPlay,
-  HiVolumeOff,
-  HiVolumeUp,
-} from "react-icons/hi";
 
-const INTRO_SESSION_KEY = "portfolio-cinematic-intro-v1";
+const INTRO_SESSION_KEY = "portfolio-cinematic-intro-v2";
 const EXIT_DURATION_MS = 1100;
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const autoplayAttemptedRef = useRef(false);
   const completionRef = useRef(false);
   const exitTimerRef = useRef<number | null>(null);
   const [isExiting, setIsExiting] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
-  const [needsPlay, setNeedsPlay] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [needsEntry, setNeedsEntry] = useState(false);
 
   const finish = useCallback(() => {
     if (completionRef.current) return;
@@ -64,7 +57,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     root.style.overflow = "hidden";
     body.style.overflow = "hidden";
 
-    const failsafeId = window.setTimeout(beginExit, 15000);
+    const failsafeId = window.setTimeout(beginExit, 20000);
 
     return () => {
       window.clearTimeout(failsafeId);
@@ -77,44 +70,48 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     };
   }, [beginExit, finish]);
 
-  const tryPlay = async () => {
+  const attemptAutoplayWithSound = useCallback(async () => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || autoplayAttemptedRef.current || completionRef.current) return;
+
+    autoplayAttemptedRef.current = true;
+    video.muted = false;
+    video.volume = 1;
 
     try {
       await video.play();
-      setNeedsPlay(false);
+      setNeedsEntry(false);
     } catch {
-      setNeedsPlay(true);
+      video.pause();
+      video.currentTime = 0;
+      setNeedsEntry(true);
     }
-  };
+  }, []);
 
-  const toggleSound = async () => {
+  const enterPortfolio = async () => {
     const video = videoRef.current;
     if (!video) return;
 
-    const nextSoundState = !soundOn;
-    video.muted = !nextSoundState;
-    video.volume = 0.72;
-    setSoundOn(nextSoundState);
-    await tryPlay();
-  };
+    video.muted = false;
+    video.volume = 1;
+    video.currentTime = 0;
 
-  const updateProgress = () => {
-    const video = videoRef.current;
-    if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
-    setProgress(Math.min(100, (video.currentTime / video.duration) * 100));
+    try {
+      await video.play();
+      setNeedsEntry(false);
+    } catch {
+      setNeedsEntry(true);
+    }
   };
 
   return (
     <div
-      className={`cinema-intro${isExiting ? " is-exiting" : ""}`}
+      className={`cinema-intro${isExiting ? " is-exiting" : ""}${
+        needsEntry ? " is-awaiting-entry" : ""
+      }`}
       role="dialog"
       aria-label="Mohammad Yassine animated website introduction"
       aria-modal="true"
-      onKeyDown={(event) => {
-        if (event.key === "Escape") beginExit();
-      }}
     >
       <div className="cinema-intro-ambient" aria-hidden="true" />
       <div className="cinema-intro-stars" aria-hidden="true" />
@@ -123,58 +120,38 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         <video
           ref={videoRef}
           className="cinema-intro-video"
-          src="/media/yassine-pixar-intro.mp4"
-          poster="/media/yassine-pixar-intro-poster.jpg"
           autoPlay
-          muted={!soundOn}
+          controls={false}
+          disablePictureInPicture
           playsInline
           preload="auto"
-          onCanPlay={tryPlay}
-          onTimeUpdate={updateProgress}
+          aria-hidden="true"
+          onCanPlay={attemptAutoplayWithSound}
           onEnded={beginExit}
           onError={beginExit}
-        />
+        >
+          <source
+            src="/media/yassine-pixar-intro-portrait.mp4"
+            type="video/mp4"
+            media="(max-aspect-ratio: 4/5)"
+          />
+          <source src="/media/yassine-pixar-intro.mp4" type="video/mp4" />
+        </video>
         <div className="cinema-intro-vignette" aria-hidden="true" />
       </div>
 
-      <div className="cinema-intro-brand" aria-hidden="true">
-        <span>Mohammad Yassine</span>
-        <small>Portfolio presentation</small>
-      </div>
-
-      <div className="cinema-intro-controls">
-        <button
-          type="button"
-          className="cinema-intro-control"
-          onClick={toggleSound}
-          aria-label={soundOn ? "Mute introduction" : "Play introduction with sound"}
-        >
-          {soundOn ? <HiVolumeUp aria-hidden="true" /> : <HiVolumeOff aria-hidden="true" />}
-          <span>{soundOn ? "Sound on" : "Sound off"}</span>
-        </button>
-
-        <button
-          type="button"
-          className="cinema-intro-control cinema-intro-skip"
-          onClick={beginExit}
-          aria-label="Skip introduction"
-          autoFocus
-        >
-          <span>Skip intro</span>
-          <HiChevronRight aria-hidden="true" />
-        </button>
-      </div>
-
-      {needsPlay && (
-        <button type="button" className="cinema-intro-play" onClick={tryPlay}>
-          <HiPlay aria-hidden="true" />
-          <span>Play intro</span>
-        </button>
+      {needsEntry && (
+        <div className="cinema-intro-entry">
+          <button
+            type="button"
+            className="cinema-intro-enter"
+            onClick={enterPortfolio}
+            autoFocus
+          >
+            Enter portfolio
+          </button>
+        </div>
       )}
-
-      <div className="cinema-intro-progress" aria-hidden="true">
-        <span style={{ transform: `scaleX(${progress / 100})` }} />
-      </div>
 
       <div className="cinema-intro-flash" aria-hidden="true" />
     </div>
