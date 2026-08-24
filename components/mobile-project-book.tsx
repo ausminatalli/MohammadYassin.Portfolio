@@ -59,6 +59,8 @@ export default function MobileProjectBook() {
 
   const project = projectsData[currentPage];
   const linkUrl = project.demo || project.githubrepo;
+  const projectIsInDevelopment = Boolean(project.status);
+  const primaryActionLabel = projectIsInDevelopment ? "VIEW PREVIEW" : "VIEW PROJECT";
 
   // Determine the animation class
   let pageClass = "book-page";
@@ -131,6 +133,17 @@ export default function MobileProjectBook() {
               </h3>
             </div>
 
+            {project.status ? (
+              <div
+                className="project-status-banner project-status-banner--book"
+                role="status"
+                aria-label={`${project.title} is still in development`}
+              >
+                <span className="project-status-banner-dot" aria-hidden="true" />
+                <span>{project.status}</span>
+              </div>
+            ) : null}
+
             <p className="text-body text-sm line-clamp-3 mb-3">
               {project.description}
             </p>
@@ -173,7 +186,7 @@ export default function MobileProjectBook() {
                   rel="noopener noreferrer"
                   className="ml-auto text-mono text-[10px] text-accent flex items-center gap-1.5"
                 >
-                  VIEW PROJECT
+                  {primaryActionLabel}
                   <FaExternalLinkAlt className="text-[8px]" />
                 </a>
               )}

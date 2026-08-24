@@ -68,7 +68,16 @@ export const metadata: Metadata = {
     "supported-color-schemes": "light",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/mohammad-yassine-favicon.ico?v=20260824", sizes: "any" },
+      {
+        url: "/mohammad-yassine-favicon.png?v=20260824",
+        type: "image/png",
+        sizes: "512x512",
+      },
+    ],
+    shortcut: "/mohammad-yassine-favicon.ico?v=20260824",
+    apple: "/mohammad-yassine-apple-icon.png?v=20260824",
   },
 };
 

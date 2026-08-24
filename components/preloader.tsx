@@ -2,116 +2,157 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const INTRO_SESSION_KEY = "portfolio-cinematic-intro-v2";
 const EXIT_DURATION_MS = 1100;
+const PLAYBACK_START_TIMEOUT_MS = 8000;
+const PLAYBACK_STALL_TIMEOUT_MS = 6000;
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const autoplayAttemptedRef = useRef(false);
   const completionRef = useRef(false);
+  const playbackRequestedRef = useRef(false);
   const exitTimerRef = useRef<number | null>(null);
+  const playbackStartTimerRef = useRef<number | null>(null);
+  const playbackStallTimerRef = useRef<number | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [needsEntry, setNeedsEntry] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
+
+  const clearPlaybackTimers = useCallback(() => {
+    if (playbackStartTimerRef.current !== null) {
+      window.clearTimeout(playbackStartTimerRef.current);
+      playbackStartTimerRef.current = null;
+    }
+    if (playbackStallTimerRef.current !== null) {
+      window.clearTimeout(playbackStallTimerRef.current);
+      playbackStallTimerRef.current = null;
+    }
+  }, []);
 
   const finish = useCallback(() => {
     if (completionRef.current) return;
     completionRef.current = true;
-    try {
-      window.sessionStorage.setItem(INTRO_SESSION_KEY, "seen");
-    } catch {
-      // Storage may be unavailable in strict private-browsing contexts.
-    }
     onComplete();
   }, [onComplete]);
 
   const beginExit = useCallback(() => {
     if (completionRef.current || exitTimerRef.current !== null) return;
 
+    clearPlaybackTimers();
     setIsExiting(true);
     document.documentElement.classList.add("intro-revealing");
     exitTimerRef.current = window.setTimeout(finish, EXIT_DURATION_MS);
-  }, [finish]);
+  }, [clearPlaybackTimers, finish]);
 
   useEffect(() => {
     const root = document.documentElement;
-    const body = document.body;
-    const previousBodyOverflow = body.style.overflow;
-    const previousRootOverflow = root.style.overflow;
-    let seenThisSession = false;
-    try {
-      seenThisSession =
-        window.sessionStorage.getItem(INTRO_SESSION_KEY) === "seen";
-    } catch {
-      // Continue with the intro when session storage is unavailable.
+    const video = videoRef.current;
+    setIsHydrated(true);
+
+    if (video && video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      setIsVideoReady(true);
     }
+
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (seenThisSession || reduceMotion) {
+    if (reduceMotion) {
       finish();
       return;
     }
 
     root.classList.add("intro-active");
-    root.style.overflow = "hidden";
-    body.style.overflow = "hidden";
 
-    const failsafeId = window.setTimeout(beginExit, 20000);
+    const handleScrollIntent = () => beginExit();
+    const handleScrollKey = (event: KeyboardEvent) => {
+      if (
+        ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(
+          event.key
+        )
+      ) {
+        beginExit();
+      }
+    };
+
+    window.addEventListener("wheel", handleScrollIntent, { passive: true });
+    window.addEventListener("touchmove", handleScrollIntent, { passive: true });
+    window.addEventListener("scroll", handleScrollIntent, { passive: true });
+    window.addEventListener("keydown", handleScrollKey);
 
     return () => {
-      window.clearTimeout(failsafeId);
+      clearPlaybackTimers();
       if (exitTimerRef.current !== null) {
         window.clearTimeout(exitTimerRef.current);
       }
+      window.removeEventListener("wheel", handleScrollIntent);
+      window.removeEventListener("touchmove", handleScrollIntent);
+      window.removeEventListener("scroll", handleScrollIntent);
+      window.removeEventListener("keydown", handleScrollKey);
       root.classList.remove("intro-active", "intro-revealing");
-      root.style.overflow = previousRootOverflow;
-      body.style.overflow = previousBodyOverflow;
     };
-  }, [beginExit, finish]);
+  }, [beginExit, clearPlaybackTimers, finish]);
 
-  const attemptAutoplayWithSound = useCallback(async () => {
-    const video = videoRef.current;
-    if (!video || autoplayAttemptedRef.current || completionRef.current) return;
-
-    autoplayAttemptedRef.current = true;
-    video.muted = false;
-    video.volume = 1;
-
-    try {
-      await video.play();
-      setNeedsEntry(false);
-    } catch {
-      video.pause();
-      video.currentTime = 0;
-      setNeedsEntry(true);
-    }
+  const handleVideoReady = useCallback(() => {
+    setIsVideoReady(true);
   }, []);
+
+  const handlePlaying = useCallback(() => {
+    clearPlaybackTimers();
+    setHasStarted(true);
+    setIsStarting(false);
+  }, [clearPlaybackTimers]);
+
+  const handlePlaybackWaiting = useCallback(() => {
+    if (!playbackRequestedRef.current || completionRef.current) return;
+
+    if (playbackStallTimerRef.current !== null) {
+      window.clearTimeout(playbackStallTimerRef.current);
+    }
+    playbackStallTimerRef.current = window.setTimeout(
+      beginExit,
+      PLAYBACK_STALL_TIMEOUT_MS
+    );
+  }, [beginExit]);
 
   const enterPortfolio = async () => {
     const video = videoRef.current;
-    if (!video) return;
+    if (
+      !isHydrated ||
+      !isVideoReady ||
+      !video ||
+      playbackRequestedRef.current
+    ) {
+      return;
+    }
 
+    playbackRequestedRef.current = true;
+    setIsStarting(true);
     video.muted = false;
     video.volume = 1;
     video.currentTime = 0;
+    playbackStartTimerRef.current = window.setTimeout(
+      beginExit,
+      PLAYBACK_START_TIMEOUT_MS
+    );
 
     try {
       await video.play();
-      setNeedsEntry(false);
     } catch {
-      setNeedsEntry(true);
+      // A user gesture normally permits audio. If playback is still rejected,
+      // reveal the site instead of leaving the visitor on a frozen frame.
+      beginExit();
     }
   };
 
   return (
     <div
       className={`cinema-intro${isExiting ? " is-exiting" : ""}${
-        needsEntry ? " is-awaiting-entry" : ""
+        !hasStarted ? " is-awaiting-entry" : ""
       }`}
-      role="dialog"
+      role="region"
       aria-label="Mohammad Yassine animated website introduction"
-      aria-modal="true"
     >
       <div className="cinema-intro-ambient" aria-hidden="true" />
       <div className="cinema-intro-stars" aria-hidden="true" />
@@ -119,12 +160,12 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       <div className="cinema-intro-frame">
         <picture className="cinema-intro-poster">
           <source
-            srcSet="/media/yassine-pixar-intro-portrait-poster.jpg"
+            srcSet="/media/yassine-pixar-intro-v3-portrait-poster.jpg"
             media="(max-aspect-ratio: 4/5)"
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/media/yassine-pixar-intro-poster.jpg"
+            src="/media/yassine-pixar-intro-v3-poster.jpg"
             alt=""
             width="1280"
             height="720"
@@ -134,36 +175,47 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         <video
           ref={videoRef}
           className="cinema-intro-video"
-          autoPlay
           controls={false}
           disablePictureInPicture
           playsInline
           preload="auto"
           aria-hidden="true"
-          onCanPlay={attemptAutoplayWithSound}
+          onLoadedData={handleVideoReady}
+          onCanPlay={handleVideoReady}
+          onPlaying={handlePlaying}
+          onWaiting={handlePlaybackWaiting}
+          onStalled={handlePlaybackWaiting}
           onEnded={beginExit}
           onError={beginExit}
         >
           <source
-            src="/media/yassine-pixar-intro-portrait.mp4"
+            src="/media/yassine-pixar-intro-v3-portrait.mp4"
             type="video/mp4"
             media="(max-aspect-ratio: 4/5)"
           />
-          <source src="/media/yassine-pixar-intro.mp4" type="video/mp4" />
+          <source src="/media/yassine-pixar-intro-v3.mp4" type="video/mp4" />
         </video>
         <div className="cinema-intro-vignette" aria-hidden="true" />
       </div>
 
-      {needsEntry && (
+      {!hasStarted && !isExiting && (
         <div className="cinema-intro-entry">
-          <button
-            type="button"
-            className="cinema-intro-enter"
-            onClick={enterPortfolio}
-            autoFocus
-          >
-            Enter portfolio
-          </button>
+          {isHydrated && isVideoReady ? (
+            <button
+              type="button"
+              className="cinema-intro-enter"
+              onClick={enterPortfolio}
+              disabled={isStarting}
+              autoFocus
+            >
+              {isStarting ? "Opening…" : "Enter portfolio"}
+            </button>
+          ) : (
+            <div className="cinema-intro-status" role="status">
+              <span aria-hidden="true" />
+              Preparing intro
+            </div>
+          )}
         </div>
       )}
 

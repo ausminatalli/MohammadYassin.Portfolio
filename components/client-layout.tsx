@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "@/components/header";
 import Preloader from "@/components/preloader";
 import SmoothScroll from "@/components/smooth-scroll";
@@ -13,17 +13,23 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   const [showIntro, setShowIntro] = useState(true);
-  const siteRef = useRef<HTMLDivElement>(null);
-  const completeIntro = useCallback(() => setShowIntro(false), []);
+
+  const completeIntro = useCallback(() => {
+    setShowIntro(false);
+  }, []);
 
   useEffect(() => {
-    if (siteRef.current) siteRef.current.inert = showIntro;
-  }, [showIntro]);
+    if (!showIntro) return;
+
+    // Never allow a failed or interrupted media transition to trap the page.
+    const safetyTimer = window.setTimeout(completeIntro, 18000);
+    return () => window.clearTimeout(safetyTimer);
+  }, [completeIntro, showIntro]);
 
   return (
     <ActiveSectionContextProvider>
       {showIntro && <Preloader onComplete={completeIntro} />}
-      <div ref={siteRef} aria-hidden={showIntro || undefined}>
+      <div>
         <SmoothScroll>
           <Header />
           {children}

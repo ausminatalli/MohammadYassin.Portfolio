@@ -113,6 +113,7 @@ export type ProjectData = {
   imageUrl: string;
   githubrepo: string;
   demo: string;
+  status?: string;
 };
 
 export const projectsData: readonly ProjectData[] = [
@@ -137,11 +138,12 @@ export const projectsData: readonly ProjectData[] = [
   {
     title: "Ajams",
     description:
-      "Designed and built a bilingual Arabic and English marketplace for subscriptions, gift cards, and game top-ups. Added Supabase catalog management, category filtering, image storage, and WhatsApp ordering with Whish Money payments.",
-    tags: ["Live", "Next.js", "Supabase", "TypeScript"],
+      "Designed a bilingual Arabic and English marketplace for subscriptions, gift cards, and game top-ups. Currently in development, with Supabase catalog management, category filtering, image storage, and WhatsApp ordering with Whish Money payments.",
+    tags: ["In Development", "Next.js", "Supabase", "TypeScript"],
     imageUrl: "/yabalesh.png",
     githubrepo: "",
     demo: "https://ajams-international-ashen.vercel.app/en",
+    status: "In Development",
   },
   {
     title: "Mourad Valley",

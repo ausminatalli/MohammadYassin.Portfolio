@@ -91,6 +91,9 @@ export default function Projects() {
   const nextIndex = (activeIndex + 1) % count;
   const activeProject = projectsData[activeIndex];
   const activeTech = projectTech[activeProject.title] ?? [];
+  const activeProjectIsInDevelopment = Boolean(activeProject.status);
+  const primaryActionLabel = activeProjectIsInDevelopment ? "Preview Build" : "Launch Project";
+  const consoleStatusLabel = activeProjectIsInDevelopment ? "Preview" : "Live";
 
   const changeProject = (direction: number) => {
     setActiveIndex((current) => (current + direction + count) % count);
@@ -179,13 +182,26 @@ export default function Projects() {
           </div>
 
           <h3>{activeProject.title}</h3>
+          {activeProject.status ? (
+            <div
+              className="project-status-banner project-status-banner--featured"
+              role="status"
+              aria-label={`${activeProject.title} is still in development`}
+            >
+              <span className="project-status-banner-dot" aria-hidden="true" />
+              <span>{activeProject.status}</span>
+            </div>
+          ) : null}
           <p className="project-summary">{activeProject.description}</p>
 
           <div className="project-console">
             <div className="console-topline" aria-hidden="true">
               <span className="console-leds"><i /><i /><i /></span>
               <span>Project Console</span>
-              <span className="console-live"><i /> Live</span>
+              <span className={activeProjectIsInDevelopment ? "console-live console-preview" : "console-live"}>
+                <i />
+                {consoleStatusLabel}
+              </span>
             </div>
             <div className="project-actions">
               {activeProject.demo ? (
@@ -194,10 +210,14 @@ export default function Projects() {
                   target="_blank"
                   rel="noreferrer"
                   className="mini-candy mini-green"
-                  aria-label={`Launch ${activeProject.title} project`}
+                  aria-label={
+                    activeProjectIsInDevelopment
+                      ? `Preview ${activeProject.title} build`
+                      : `Launch ${activeProject.title} project`
+                  }
                 >
                   <span className="mini-candy-icon"><HiExternalLink aria-hidden="true" /></span>
-                  <span>Launch Project</span>
+                  <span>{primaryActionLabel}</span>
                 </a>
               ) : (
                 <Link

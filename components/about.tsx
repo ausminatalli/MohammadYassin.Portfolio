@@ -69,7 +69,7 @@ export default function About() {
         scrollTrigger: {
           trigger: section,
           start: "top 68%",
-          toggleActions: "play none none reverse",
+          once: true,
         },
       });
 
@@ -120,16 +120,9 @@ export default function About() {
           scrollTrigger: {
             trigger: section,
             start: "top 68%",
-            toggleActions: "play none none reset",
+            once: true,
           },
         });
-      });
-
-      gsap.to(".comic-divider-bolt", {
-        backgroundPosition: "0 145%",
-        duration: 1.8,
-        repeat: -1,
-        ease: "none",
       });
     }, section);
 
