@@ -40,19 +40,6 @@ export default function Header() {
             className="h-full w-full object-contain"
           />
         </span>
-        {/* <span className="game-profile" aria-hidden="true">
-          <span className="game-avatar">
-            <Image
-              src="/MOHAMMADYASSINE.png"
-              alt=""
-              width={58}
-              height={58}
-              priority
-              unoptimized
-            />
-          </span>
-          Mohammad Yassine
-        </span> */}
       </Link>
 
       <nav className="game-nav" aria-label="Primary navigation">

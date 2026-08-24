@@ -6,14 +6,10 @@ import "@fontsource/nunito-sans/700.css";
 import "@fontsource/nunito-sans/800.css";
 import type { Metadata } from "next";
 import ClientLayout from "@/components/client-layout";
-
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(
-  /\/$/,
-  ""
-);
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   colorScheme: "only light",
   title: {
     default: "Mohammad Yassine — Full-Stack Software Engineer",
@@ -49,10 +45,10 @@ export const metadata: Metadata = {
     siteName: "Mohammad Yassine Portfolio",
     images: [
       {
-        url: "/mohammadyassine.jpeg",
+        url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Mohammad Yassine Portfolio Preview",
+        alt: "Mohammad Yassine — Full-Stack Software Engineer",
       },
     ],
   },
@@ -61,7 +57,7 @@ export const metadata: Metadata = {
     title: "Mohammad Yassine — Full-Stack Software Engineer",
     description:
       "Portfolio of Mohammad Yassine, building production products with React, Next.js, React Native, Laravel, and Node.js.",
-    images: ["/mohammadyassine.jpeg"],
+    images: ["/og.png"],
   },
   robots: {
     index: true,

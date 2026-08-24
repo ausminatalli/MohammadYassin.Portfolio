@@ -174,13 +174,12 @@ export default function Projects() {
               alt={`${activeProject.title} illustrated project world`}
               width={500}
               height={500}
-              priority
               sizes="(max-width: 600px) 82vw, (max-width: 900px) 56vw, 34vw"
             />
           </div>
 
           <h3>{activeProject.title}</h3>
-          <p className="sr-only">{activeProject.description}</p>
+          <p className="project-summary">{activeProject.description}</p>
 
           <div className="project-console">
             <div className="console-topline" aria-hidden="true">

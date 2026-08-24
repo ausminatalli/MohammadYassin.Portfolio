@@ -117,6 +117,20 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       <div className="cinema-intro-stars" aria-hidden="true" />
 
       <div className="cinema-intro-frame">
+        <picture className="cinema-intro-poster">
+          <source
+            srcSet="/media/yassine-pixar-intro-portrait-poster.jpg"
+            media="(max-aspect-ratio: 4/5)"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/media/yassine-pixar-intro-poster.jpg"
+            alt=""
+            width="1280"
+            height="720"
+            fetchPriority="high"
+          />
+        </picture>
         <video
           ref={videoRef}
           className="cinema-intro-video"

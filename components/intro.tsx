@@ -57,6 +57,7 @@ export default function Intro() {
               width={817}
               height={1037}
               priority
+              sizes="(max-width: 600px) 39vw, (max-width: 900px) 28vw, 22vw"
               className="robot-figure"
             />
           </div>

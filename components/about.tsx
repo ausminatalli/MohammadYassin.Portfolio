@@ -180,7 +180,6 @@ export default function About() {
                   height={1574}
                   className="comic-profile-photo"
                   sizes="(max-width: 780px) 82vw, 34vw"
-                  priority
                 />
                 <div className="comic-screen-glare" aria-hidden="true" />
               </div>
@@ -195,12 +194,14 @@ export default function About() {
 
       <div className="comic-right-content">
         <p className="comic-bio">
-          <strong>Full-Stack Hero!</strong>
-          <span>5+ Years Designing &amp; Shipping</span>
-          <span>Amazing Web <em>&amp;</em> Mobile Apps.</span>
-          <span><em>Solo Architect</em> for International</span>
-          <span>Startups. <em>Mentor</em> to Junior Devs.</span>
-          <strong>Agile Warrior!</strong>
+          <span>I&apos;m a full-stack engineer with</span>
+          <strong>5+ years shipping production products</strong>
+          <span>across <em>MENA</em> and the Gulf.</span>
+          <span>I lead builds end to end—from architecture</span>
+          <span>and data modeling to polished interfaces,</span>
+          <span>deployment, and continuous improvement.</span>
+          <span>I also mentor junior developers</span>
+          <strong>and help teams ship with confidence.</strong>
         </p>
 
         <div className="comic-stats" aria-label="Professional highlights">

@@ -145,12 +145,11 @@ export default function Experience() {
 
               <div className="experience-level-shell">
                 <div className="experience-level-banner">
-                  <span>LEVEL CLEAR!</span>
+                  <span><time>{item.date || "Professional development"}</time></span>
                 </div>
 
                 <div className="experience-card-copy">
                   <div className="experience-card-meta">
-                    <time>{item.date || "Completed"}</time>
                     <span className="experience-company">
                       <strong>{company}</strong>
                       {place ? <small>{place}</small> : null}
@@ -160,8 +159,8 @@ export default function Experience() {
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
 
-                  <div className="experience-score" aria-label={`Career level ${level}`}>
-                    <span className="experience-level-number">LVL {level}</span>
+                  <div className="experience-score" aria-label={`Career milestone ${level}`}>
+                    <span className="experience-level-number">Milestone {level}</span>
                     <span className="experience-stars" aria-hidden="true">
                       <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i>
                     </span>

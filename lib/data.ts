@@ -119,7 +119,7 @@ export const projectsData: readonly ProjectData[] = [
   {
     title: "Thiqa",
     description:
-      "Built a two-sided Lebanese trades marketplace connecting clients with skilled tradespeople across multiple specializations. Clients post work requests, tradespeople submit proposals, and the platform handles profile, listing, and application management. Implemented real-time job alerts via WebSockets and integrated Whish Money payment flows for premium subscription upgrades. Delivered cross-platform iOS and Android apps with a Laravel REST API backend.",
+      "Built a two-sided Lebanese trades marketplace connecting clients with skilled professionals. Delivered the iOS and Android apps with React Native and Laravel, including real-time job alerts and Whish Money subscription flows.",
     tags: ["Live", "Laravel", "React Native", "WebSockets"],
     imageUrl: "/sha8elni.png",
     githubrepo: "",
@@ -128,7 +128,7 @@ export const projectsData: readonly ProjectData[] = [
   {
     title: "MeaCash",
     description:
-      "Built the full Vue.js frontend and Laravel backend for a digital wallet and payments platform with real-time transaction flows, live balance updates, optimistic UI patterns, retry logic, audit logging, and a WebSocket-powered transaction feed.",
+      "Built the Vue.js frontend and Laravel backend for a digital wallet and payments platform. Implemented live balances, optimistic transaction flows, retry handling, audit logs, and a WebSocket-powered activity feed.",
     tags: ["Live", "Vue.js", "Laravel", "PostgreSQL"],
     imageUrl: "/meacash.png",
     githubrepo: "",
@@ -137,7 +137,7 @@ export const projectsData: readonly ProjectData[] = [
   {
     title: "Ajams",
     description:
-      "Designed and built a bilingual Arabic/English digital products marketplace for subscriptions, gift cards, and game top-ups across 10+ categories. Implemented Supabase-backed catalog management with image storage, category filtering, and WhatsApp-integrated order flows with Whish Money payment processing.",
+      "Designed and built a bilingual Arabic and English marketplace for subscriptions, gift cards, and game top-ups. Added Supabase catalog management, category filtering, image storage, and WhatsApp ordering with Whish Money payments.",
     tags: ["Live", "Next.js", "Supabase", "TypeScript"],
     imageUrl: "/yabalesh.png",
     githubrepo: "",
@@ -146,7 +146,7 @@ export const projectsData: readonly ProjectData[] = [
   {
     title: "Mourad Valley",
     description:
-      "Designed and built a Laravel-based content platform with a custom CMS and content pipeline, including structured content modeling, admin-controlled publishing workflows, and dynamic routing for non-technical editors.",
+      "Designed and built a Laravel content platform with a custom CMS. Structured content models, controlled publishing workflows, and dynamic routing let non-technical editors manage the site independently.",
     tags: ["Live", "Laravel", "PostgreSQL", "Supabase"],
     imageUrl: "/mouradvalley.png",
     githubrepo: "",
@@ -155,7 +155,7 @@ export const projectsData: readonly ProjectData[] = [
   {
     title: "Mido Delivery",
     description:
-      "Built the marketing and service website for Beirut's on-demand courier platform, showing 2,000+ completed deliveries, a 30-minute average fulfillment time, and a 4.9/5 customer rating. The bilingual Arabic/English UI covers service tiers, pricing starting at $3, coverage zones, and a WhatsApp-integrated order flow for direct conversions.",
+      "Built the bilingual marketing website for Beirut's on-demand courier platform. The responsive experience presents service tiers, pricing, coverage, and a WhatsApp-integrated order flow designed for direct conversions.",
     tags: ["Live", "Next.js", "Tailwind CSS", "WhatsApp"],
     imageUrl: "/midodelivery.png",
     githubrepo: "",

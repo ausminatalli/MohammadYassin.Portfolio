@@ -12,7 +12,7 @@ export default function SubmitBtn() {
       disabled={pending}
       aria-label={pending ? "Sending message" : "Submit contact form"}
     >
-      <span>{pending ? "Transmitting..." : "Send message"}</span>
+      <span>{pending ? "Sending..." : "Send message"}</span>
       <HiPaperAirplane className="contact-submit-icon" aria-hidden="true" />
     </button>
   );

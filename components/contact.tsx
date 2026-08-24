@@ -31,19 +31,19 @@ export default function Contact() {
             <span />
             <i />
           </div>
-          <span className="contact-workshop-kicker">Mission control is online</span>
+          <span className="contact-workshop-kicker">Open to selected opportunities</span>
           <h2>Let&apos;s Build Something</h2>
-          <p>Have a product idea, a tricky build, or a team that needs an extra pair of hands? Send the signal.</p>
+          <p>Have a product idea, a complex build, or a team that needs senior delivery support? Tell me what you&apos;re building.</p>
         </header>
 
-        <div className="contact-transmission" role="status" aria-label="Secure contact channel is online">
+        <div className="contact-transmission" role="status" aria-label="Contact channel is available">
           <span className="contact-transmission-channel">
-            <i aria-hidden="true" /> Secure uplink
+            <i aria-hidden="true" /> Private contact channel
           </span>
           <span className="contact-waveform" aria-hidden="true">
             <i /><i /><i /><i /><i /><i /><i /><i /><i />
           </span>
-          <span className="contact-transmission-code">BEIRUT // UTC+3 // CHANNEL 24</span>
+          <span className="contact-transmission-code">BEIRUT · REMOTE WORLDWIDE</span>
         </div>
 
         <div className="contact-workshop-grid">
@@ -51,21 +51,21 @@ export default function Contact() {
             <div className="contact-signal-panel">
               <a href="mailto:mohammadhabibyassine@gmail.com" className="contact-signal-row">
                 <span className="contact-signal-icon"><HiMail aria-hidden="true" /></span>
-                <span><small>Email channel</small><strong>mohammadhabibyassine@gmail.com</strong></span>
+                <span><small>Email</small><strong>mohammadhabibyassine@gmail.com</strong></span>
               </a>
               <a href="tel:+96181653405" className="contact-signal-row">
                 <span className="contact-signal-icon"><HiPhone aria-hidden="true" /></span>
-                <span><small>Direct line</small><strong>+961 81 653 405</strong></span>
+                <span><small>Phone</small><strong>+961 81 653 405</strong></span>
               </a>
               <div className="contact-signal-row">
                 <span className="contact-signal-icon"><HiLocationMarker aria-hidden="true" /></span>
-                <span><small>Base station</small><strong>Beirut, Lebanon · Remote worldwide</strong></span>
+                <span><small>Location</small><strong>Beirut, Lebanon · Remote worldwide</strong></span>
               </div>
             </div>
 
             <div className="contact-availability" role="status">
               <span className="contact-availability-light" aria-hidden="true" />
-              <div><small>Current status</small><strong>Available for new missions</strong></div>
+              <div><small>Current status</small><strong>Available for selected projects</strong></div>
               <span className="contact-response-time">Replies within 24h</span>
             </div>
 
@@ -90,7 +90,7 @@ export default function Contact() {
             <div className="contact-console-scan" aria-hidden="true" />
             <div className="contact-console-bar" aria-hidden="true">
               <span /><span /><span />
-              <strong>NEW_MESSAGE.exe</strong>
+              <strong>PROJECT ENQUIRY</strong>
             </div>
 
             <form
@@ -140,12 +140,12 @@ export default function Contact() {
               </div>
 
               <div className="contact-field contact-field-message">
-                <label htmlFor="contact-message"><span>02</span> Tell me about the mission</label>
+                <label htmlFor="contact-message"><span>02</span> Tell me about the project</label>
                 <textarea
                   id="contact-message"
                   className="contact-workshop-input contact-workshop-message"
                   name="message"
-                  placeholder="What are we building?"
+                  placeholder="What would you like to build?"
                   required
                   maxLength={5000}
                 />
