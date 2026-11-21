@@ -26,6 +26,30 @@ export default function ClientLayout({
     return () => window.clearTimeout(safetyTimer);
   }, [completeIntro, showIntro]);
 
+  useEffect(() => {
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>("main > section")
+    );
+    if (!sections.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      sections.forEach((section) => section.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        });
+      },
+      { rootMargin: "18% 0px 18%" }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <ActiveSectionContextProvider>
       {showIntro && <Preloader onComplete={completeIntro} />}

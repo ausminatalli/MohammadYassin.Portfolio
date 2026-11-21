@@ -66,6 +66,13 @@ html {
   overflow-y: auto;
 }
 
+/* Keep continuous decorative work off the main thread when its section is not
+   near the viewport. The observer in ClientLayout re-enables it just in time. */
+main > section:not(.is-visible),
+main > section:not(.is-visible) * {
+  animation-play-state: paused !important;
+}
+
 body {
   color-scheme: only light;
   font-family: var(--font-body);

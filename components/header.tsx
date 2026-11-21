@@ -11,13 +11,16 @@ import {
   HiUser,
 } from "react-icons/hi";
 import { links } from "@/lib/data";
-import { useActiveSectionContext } from "@/context/active-section-context";
+import {
+  useActiveSectionActions,
+  useActiveSectionValue,
+} from "@/context/active-section-context";
 
 const navIcons = [HiHome, HiUser, HiBriefcase, HiSparkles, HiAcademicCap, HiMail];
 
 export default function Header() {
-  const { activeSection, setActiveSection, setTimeOfLastClick } =
-    useActiveSectionContext();
+  const { activeSection } = useActiveSectionValue();
+  const { setActiveSection, setTimeOfLastClick } = useActiveSectionActions();
 
   return (
     <header className={`game-header is-${activeSection.toLowerCase()}`}>

@@ -6,7 +6,7 @@ import { HiDownload } from "react-icons/hi";
 import { FaAws, FaDocker, FaJava, FaNodeJs, FaPython, FaReact } from "react-icons/fa";
 import { SiKubernetes } from "react-icons/si";
 import { useSectionInView } from "@/lib/hooks";
-import { useActiveSectionContext } from "@/context/active-section-context";
+import { useActiveSectionActions } from "@/context/active-section-context";
 
 const technologies = [
   { name: "React", Icon: FaReact, className: "tech-react" },
@@ -23,7 +23,7 @@ const technologies = [
 
 export default function Intro() {
   const { ref } = useSectionInView("Home", 0.5);
-  const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
+  const { setActiveSection, setTimeOfLastClick } = useActiveSectionActions();
 
   return (
     <section ref={ref} id="home" className="space-hero scroll-mt-0">
